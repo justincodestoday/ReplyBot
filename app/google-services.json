@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "450825479564",
+    "project_id": "chatbot-assignment-a4462",
+    "storage_bucket": "chatbot-assignment-a4462.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450825479564:android:4908c0c39e0de8b097e2a9",
+        "android_client_info": {
+          "package_name": "com.example.replybot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450825479564-ta256gscsncpr8lcodn2b2oi662i1h7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqTD64dd54vt8-DAji4yxNQI4HTQdJtZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450825479564-ta256gscsncpr8lcodn2b2oi662i1h7c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
