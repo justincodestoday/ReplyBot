@@ -5,8 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/credentials_page"
-        tools:context=".ui.RegisterFragment">
+        android:background="@color/dark_blue"
+        tools:context=".ui.presentation.authDirectory.RegisterFragment">
 
         <ImageView
             android:layout_width="150dp"
@@ -20,7 +20,7 @@
             android:id="@+id/ti_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_above="@id/ti_email"
             android:layout_marginHorizontal="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="8dp"
                 android:hint="Type your Username"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -36,7 +37,7 @@
             android:id="@+id/ti_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ti_username"
+            android:layout_centerInParent="true"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp">
 
@@ -45,6 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="8dp"
                 android:hint="Type your Email"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -63,18 +65,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_lock_open"
+                android:drawablePadding="8dp"
                 android:hint="Type Your Password"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-            android:layout_width="150dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_confirm_password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ti_password"
+            android:layout_below="@+id/ti_password"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
-            android:text="Sign In"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_lock_open"
+                android:drawablePadding="8dp"
+                android:hint="Retype Password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRegister"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ti_confirm_password"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Sign Up"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -84,7 +106,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="24dp"
-            android:text="Create a new account here." />
+            android:text="Proceed to sign in"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 </layout>

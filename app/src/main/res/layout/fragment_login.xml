@@ -10,8 +10,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/credentials_page"
-        tools:context=".ui.LoginFragment">
+        android:background="@color/dark_blue"
+        tools:context=".ui.presentation.authDirectory.LoginFragment">
 
         <ImageView
             android:layout_width="150dp"
@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="8dp"
                 android:hint="Type your Email"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -51,12 +52,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_lock_open"
+                android:drawablePadding="8dp"
                 android:hint="Type Your Password"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/btnLogin"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/ti_password"
@@ -67,11 +69,15 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/btnToRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="24dp"
-            android:text="Create a new account here." />
+            android:text="Create a new account here"
+            android:clickable="true"
+            android:textColor="@color/white" />
+
     </RelativeLayout>
 </layout>
