@@ -1,15 +1,12 @@
-package com.mandalorian.replybot.ui
+package com.mandalorian.replybot.ui.presentation.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentHomeBinding
-import com.mandalorian.replybot.ui.presentation.activatedMessages.ActivatedMessagesFragment
 import com.mandalorian.replybot.ui.presentation.adapter.HomeAdapter
-import com.mandalorian.replybot.ui.presentation.deactivatedMessages.DeactivatedMessagesFragment
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
