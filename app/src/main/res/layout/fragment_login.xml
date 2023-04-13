@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/credentials_page"
-        tools:context=".ui.LoginFragment">
+        tools:context=".ui.presentation.authDirectory.LoginFragment">
 
         <ImageView
             android:layout_width="150dp"
@@ -58,7 +58,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/btnLogin"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/ti_password"
@@ -69,12 +69,14 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/btnToRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="24dp"
             android:text="Create a new account here"
+            android:clickable="true"
             android:textColor="@color/white" />
 
     </RelativeLayout>

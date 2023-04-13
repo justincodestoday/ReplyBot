@@ -12,6 +12,8 @@ import com.mandalorian.replybot.ui.presentation.adapter.HomeAdapter
 import com.mandalorian.replybot.ui.presentation.deactivatedMessages.DeactivatedMessagesFragment
 
 class HomeFragment : Fragment() {
+private lateinit var binding: FragmentHomeBinding
+    private var param2: String? = null
     private lateinit var binding: FragmentHomeBinding
     private val activatedFragment = ActivatedMessagesFragment.getInstance()
     private val deactivatedMessagesFragment = DeactivatedMessagesFragment.getInstance()
