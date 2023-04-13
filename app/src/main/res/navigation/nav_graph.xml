@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mandalorian.replybot.ui.HomeFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.home.HomeFragment"
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/registerFragment"
