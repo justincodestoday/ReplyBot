@@ -10,9 +10,6 @@ class AuthService(private val auth: FirebaseAuth, private val ref: CollectionRef
     suspend fun createUser(user: User) {
         val res = auth.createUserWithEmailAndPassword(user.email, user.pass).await()
         ref.document(res.user!!.uid).set(user).await()
-//        if (res.user != null) {
-//            ref.document(user.email).set(user).await()
-//        }
     }
 
     suspend fun login(email: String, pass: String): Boolean {

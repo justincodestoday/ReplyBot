@@ -29,11 +29,9 @@ object MyAppDependency {
         return Firebase.auth
     }
 
-
     @Provides
     @Singleton
     fun getAuthRepository(auth: FirebaseAuth, db: FirebaseFirestore): AuthService {
         return AuthService(auth, db.collection("users"))
     }
-
 }
