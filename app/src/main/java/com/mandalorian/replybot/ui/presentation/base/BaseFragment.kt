@@ -10,7 +10,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.snackbar.Snackbar
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     lateinit var navController: NavController
@@ -44,6 +46,12 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     open fun onBindView(view: View, savedInstanceState: Bundle?) {
         binding = DataBindingUtil.bind(view)
         binding?.lifecycleOwner = viewLifecycleOwner
+        lifecycleScope.launch {
+            viewModel.error.collect {
+                val snackbar = Snackbar.make(view, it, Snackbar.LENGTH_LONG)
+                snackbar.show()
+            }
+        }
     }
 
     open fun onBindData(view: View) {}
