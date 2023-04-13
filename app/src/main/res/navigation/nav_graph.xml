@@ -23,7 +23,11 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mandalorian.replybot.ui.presentation.home.HomeFragment"
-        android:label="HomeFragment"></fragment>
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_editMessageFragment"
+            app:destination="@id/editMessageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.mandalorian.replybot.ui.presentation.authDirectory.RegisterFragment"
@@ -43,5 +47,21 @@
         tools:layout="@layout/fragment_edit_message">
         <argument android:name="id"
             app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/deactivatedMessagesFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.home.DeactivatedMessagesFragment"
+        android:label="DeactivatedMessagesFragment" >
+        <action
+            android:id="@+id/action_deactivatedMessagesFragment_to_editMessageFragment"
+            app:destination="@id/editMessageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activatedMessagesFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.home.ActivatedMessagesFragment"
+        android:label="ActivatedMessagesFragment" >
+        <action
+            android:id="@+id/action_activatedMessagesFragment_to_editMessageFragment"
+            app:destination="@id/editMessageFragment" />
     </fragment>
 </navigation>

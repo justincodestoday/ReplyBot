@@ -7,7 +7,7 @@ interface MessageRepository {
 
     suspend fun getMessageById(id: String): Message?
 
-    suspend fun addMessage(message: Message)
+    suspend fun addMessage(message: Message, isActivated: Boolean)
 
     suspend fun updateMessage(id: String, message: Message): Message
 

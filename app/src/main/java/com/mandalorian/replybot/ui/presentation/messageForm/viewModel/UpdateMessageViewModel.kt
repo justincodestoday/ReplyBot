@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) : BaseMessageViewModel(repo) {
+class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) :
+    BaseMessageViewModel(repo) {
     val message: MutableLiveData<Message> = MutableLiveData()
 
     fun getMessageById(id: String) {
@@ -27,14 +28,20 @@ class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) : Base
         id: String,
         message: Message,
     ) {
-        val validationStatus = Utils.validate(
-            message.title,
-            message.sendMsg,
-            message.replyMsg
-        )
+        val validationStatus = message.title?.let {
+            message.sendMsg?.let { it1 ->
+                message.replyMsg?.let { it2 ->
+                    Utils.validate(
+                        it,
+                        it1,
+                        it2
+                    )
+                }
+            }
+        }
         viewModelScope.launch {
-            if(validationStatus) {
-                safeApiCall {  repo.updateMessage(id, message) }
+            if (validationStatus == true) {
+                safeApiCall { repo.updateMessage(id, message) }
                 finish.emit(Unit)
             } else {
                 error.emit("Validation failed")

@@ -1,6 +1,8 @@
 package com.mandalorian.replybot.ui.presentation.messageForm.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.repository.MessageRepository
@@ -12,20 +14,29 @@ import javax.inject.Inject
 class CreateMessageViewModel @Inject constructor(repo: MessageRepository) :
     BaseMessageViewModel(repo) {
     fun addMessage(
-        message: Message
-    ) {
-        val validationStatus = validate(
-            message.title,
-            message.sendMsg,
-            message.replyMsg
-        )
+        message: Message,
+    )
+    {
+        val validationStatus = message.title?.let {
+            message.sendMsg?.let { it1 ->
+                message.replyMsg?.let { it2 ->
+                    validate(
+                        it,
+                        it1,
+                        it2
+                    )
+                }
+            }
+        }
         viewModelScope.launch {
-            if (validationStatus) {
-                safeApiCall { repo.addMessage(message) }
-                finish.emit(Unit)
-                Log.d("debugging", "Please la pt.2")
-            } else {
-                error.emit("Im done")
+            if (validationStatus == true) {
+                if (message.isActivated) {
+                    safeApiCall { repo.addMessage(message, true) }
+                    finish.emit(Unit)
+                    Log.d("debugging", "Please la pt.2")
+                } else {
+                    error.emit("Im done")
+                }
             }
         }
     }
