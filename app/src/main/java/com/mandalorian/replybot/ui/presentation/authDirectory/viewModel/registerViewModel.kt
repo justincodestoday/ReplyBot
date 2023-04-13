@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.User
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
-import com.mandalorian.replybot.utils.Util
+import com.mandalorian.replybot.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class registerViewModel @Inject constructor(private val auth:AuthService):BaseVi
         pass:String,
         conPass: String,
     ){
-        if (Util.validate(username, email, pass ,conPass) && pass == conPass) {
+        if (Utils.validate(username, email, pass ,conPass) && pass == conPass) {
             viewModelScope.launch {
                 safeApiCall {
                     auth.createUser(
