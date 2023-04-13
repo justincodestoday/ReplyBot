@@ -7,17 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentHomeBinding
+import com.mandalorian.replybot.ui.presentation.activatedMessages.ActivatedMessagesFragment
+import com.mandalorian.replybot.ui.presentation.adapter.HomeAdapter
+import com.mandalorian.replybot.ui.presentation.deactivatedMessages.DeactivatedMessagesFragment
 
 class HomeFragment : Fragment() {
 private lateinit var binding: FragmentHomeBinding
     private var param2: String? = null
+    private lateinit var binding: FragmentHomeBinding
+    private val activatedFragment = ActivatedMessagesFragment.getInstance()
+    private val deactivatedMessagesFragment = DeactivatedMessagesFragment.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = HomeAdapter(
+            listOf(activatedFragment, deactivatedMessagesFragment),
+            childFragmentManager,
+            lifecycle
+        )
+        binding.viewPager.adapter = adapter
+    }
 }

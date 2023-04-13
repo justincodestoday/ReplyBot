@@ -22,13 +22,13 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
         binding?.lifecycleOwner = viewLifecycleOwner
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activated_messages, container, false)
+    companion object {
+        private var activatedMessagesInstance: ActivatedMessagesFragment? = null
+        fun getInstance(): ActivatedMessagesFragment {
+            if (activatedMessagesInstance == null) {
+                activatedMessagesInstance = ActivatedMessagesFragment()
+            }
+            return activatedMessagesInstance!!
+        }
     }
-
 }
