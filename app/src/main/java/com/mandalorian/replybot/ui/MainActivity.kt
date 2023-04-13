@@ -19,11 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(auth.isAuthenticate()){
-            findNavController(R.id.nav_host_fragment).navigate(R.id.homeFragment)
-        }else{
-            findNavController(R.id.nav_host_fragment).navigate(R.id.loginFragment)
-        }
+//        if(auth.isAuthenticate()){
+//            findNavController(R.id.nav_host_fragment).navigate(R.id.homeFragment)
+//        }else{
+//            findNavController(R.id.nav_host_fragment).navigate(R.id.loginFragment)
+//        }
     }
 
 }
