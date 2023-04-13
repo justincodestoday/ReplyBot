@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="notification_service_name">Notification Service</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
     <string name="activated_messages">Activated Messages</string>
     <string name="deactivated_messages">Deactivated Messages</string>
 </resources>
