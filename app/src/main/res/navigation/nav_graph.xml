@@ -4,18 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
-
     <action
-        android:id="@+id/toCreateMessageFragment"
-        app:destination="@id/createMessageFragment" />
-
+        android:id="@+id/toLoginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/toHomeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/loginFragment"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.mandalorian.replybot.ui.presentation.authDirectory.LoginFragment"
         android:label="LoginFragment">
         <action
             android:id="@+id/action_login_to_home"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_login_to_register"
             app:destination="@id/registerFragment" />
@@ -27,6 +34,9 @@
         <action
             android:id="@+id/action_homeFragment_to_editMessageFragment"
             app:destination="@id/editMessageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMessageFragment"
+            app:destination="@id/createMessageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -37,31 +47,16 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/createMessageFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.messageForm.CreateMessageFragment"
-        android:label="CreateMessageFragment" />
-    <fragment
         android:id="@+id/editMessageFragment"
         android:name="com.mandalorian.replybot.ui.presentation.messageForm.EditMessageFragment"
         android:label="fragment_edit_message"
         tools:layout="@layout/fragment_edit_message">
-        <argument android:name="id"
-            app:argType="string"/>
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/deactivatedMessagesFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.home.DeactivatedMessagesFragment"
-        android:label="DeactivatedMessagesFragment" >
-        <action
-            android:id="@+id/action_deactivatedMessagesFragment_to_editMessageFragment"
-            app:destination="@id/editMessageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/activatedMessagesFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.home.ActivatedMessagesFragment"
-        android:label="ActivatedMessagesFragment" >
-        <action
-            android:id="@+id/action_activatedMessagesFragment_to_editMessageFragment"
-            app:destination="@id/editMessageFragment" />
-    </fragment>
+        android:id="@+id/createMessageFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.messageForm.CreateMessageFragment"
+        android:label="CreateMessageFragment" />
 </navigation>

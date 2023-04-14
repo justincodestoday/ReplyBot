@@ -3,7 +3,6 @@ package com.mandalorian.replybot.ui.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.mandalorian.replybot.databinding.ItemLayoutMessageBinding
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.utils.Utils.update
@@ -31,7 +30,7 @@ class MessagesAdapter(
         val message = messages[position]
         holder.binding.run {
             tvTitle.text = message.title
-            tvReceive.text = message.sendMsg
+            tvReceive.text = message.receipt
             tvReply.text = message.replyMsg
 
             cvMessage.setOnClickListener {

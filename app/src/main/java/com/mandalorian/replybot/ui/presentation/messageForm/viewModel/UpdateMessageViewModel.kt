@@ -1,6 +1,5 @@
 package com.mandalorian.replybot.ui.presentation.messageForm.viewModel
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.Message
@@ -29,7 +28,7 @@ class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) :
         message: Message,
     ) {
         val validationStatus = message.title?.let {
-            message.sendMsg?.let { it1 ->
+            message.receipt?.let { it1 ->
                 message.replyMsg?.let { it2 ->
                     Utils.validate(
                         it,

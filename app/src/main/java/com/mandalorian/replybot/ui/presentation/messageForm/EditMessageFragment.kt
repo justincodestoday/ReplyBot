@@ -27,7 +27,7 @@ class EditMessageFragment : BaseMessageFragment() {
         viewModel.message.observe(viewLifecycleOwner) {
             binding?.apply {
                 etTitle.setText(it.title)
-                etSendMessage.setText(it.sendMsg)
+                etSendMessage.setText(it.receipt)
                 etReplyMessage.setText(it.replyMsg)
 
                 button.setOnClickListener {

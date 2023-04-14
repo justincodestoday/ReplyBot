@@ -41,7 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
         binding?.btnAdd?.setOnClickListener {
-            val action = HomeFragmentDirections.toCreateMessageFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
