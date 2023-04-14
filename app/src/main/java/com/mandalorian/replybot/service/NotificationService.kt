@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationManagerCompat
+import com.mandalorian.replybot.model.WearableNotification
 import com.mandalorian.replybot.utils.NotificationUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,6 +14,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class NotificationService: NotificationListenerService() {
+    private var msg: String = ""
+    private var replyText: String = ""
+
     override fun onNotificationPosted(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
         super.onNotificationPosted(sbn, rankingMap)
 
@@ -38,23 +42,52 @@ class NotificationService: NotificationListenerService() {
         RemoteInput.addResultsToIntent(
             wNotification.remoteInputs.toTypedArray(), intent, bundle
         )
+    }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                wNotification.pendingIntent?.let {
-                    NotificationManagerCompat.from(this@NotificationService).cancelAll()
+    private fun checkMsg(wNotification: WearableNotification, callback: () -> Unit) {
+        msg = wNotification.bundle?.getString("android.text") ?: "Empty"
+
+//        wNotification.bundle?.keySet()?.forEach {
+//            Log.d(DEBUG, "keySet: $it \n content: ${wNotification.bundle?.getString(it)}")
+//        }
+//        Log.d(DEBUG, wNotification.bundle?.keySet().toString())
+//        Log.d(DEBUG, "Message: $msg")
+//        val rules = getMessages()
+
+//        for (i in rules) {
+//            if (msg.contains(Regex(i.keyword, RegexOption.IGNORE_CASE))) {
+//                replyText = i.msg
+//            } else {
+//                return
+//            }
+//
+//            val notifName = wNotification.name
+//            if ((i.whatsapp || i.facebook || i.slack) && (hasAppName(
+//                    notifName,
+//                    "com.whatsapp"
+//                ) || hasAppName(notifName, "com.facebook"))
+//            ) {
+//                callback()
+//            }
+//        }
+//        callback()
+    }
+
+    private fun wNotificationPendingIntent(sbn: StatusBarNotification?, wNotification: WearableNotification, intent: Intent) {
+        try {
+            wNotification.pendingIntent?.let {
+                CoroutineScope(Dispatchers.Default).launch {
+//                    isRunning = false
                     cancelNotification(sbn?.key)
-                    delay(500)
+
                     it.send(this@NotificationService, 0, intent)
-//                if (sbn?.id != null) {
-//                    NotificationManagerCompat.from(this).cancel(sbn.id)
-//                } else {
-//                    cancelNotification(sbn?.key.toString())
-//                }
+                    delay(500)
+//                    isRunning = true
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
+        } catch (e: Exception) {
+//            isRunning = true
+            e.printStackTrace()
         }
     }
 }
