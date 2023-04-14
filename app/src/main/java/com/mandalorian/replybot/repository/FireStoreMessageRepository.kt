@@ -18,7 +18,7 @@ class FireStoreMessageRepository(private val ref: CollectionReference): MessageR
         val doc = ref.document() // Create a new document with a random ID
         val id = doc.id // Get the ID of the new document
         val updatedMessage = message.copy(id = id) // Set the ID and createdAt fields of the product
-        doc.set(updatedMessage).await() // Add the product to Firestore
+        doc.set(updatedMessage).await()
     }
 
     override suspend fun updateMessage(id: String, message: Message): Message {
