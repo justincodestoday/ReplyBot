@@ -5,16 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import androidx.core.app.NotificationManagerCompat
+import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.model.WearableNotification
+import com.mandalorian.replybot.repository.FireStoreMessageRepository
 import com.mandalorian.replybot.utils.NotificationUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import javax.inject.Inject
 
 class NotificationService: NotificationListenerService() {
-    private var msg: String = ""
+    @Inject
+    lateinit var messageRepo: FireStoreMessageRepository
+    private var msgReceived: String = ""
     private var replyText: String = ""
 
     override fun onNotificationPosted(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
@@ -45,22 +46,22 @@ class NotificationService: NotificationListenerService() {
     }
 
     private fun checkMsg(wNotification: WearableNotification, callback: () -> Unit) {
-        msg = wNotification.bundle?.getString("android.text") ?: "Empty"
+        msgReceived = wNotification.bundle?.getString("android.text") ?: "Empty"
 
 //        wNotification.bundle?.keySet()?.forEach {
 //            Log.d(DEBUG, "keySet: $it \n content: ${wNotification.bundle?.getString(it)}")
 //        }
 //        Log.d(DEBUG, wNotification.bundle?.keySet().toString())
 //        Log.d(DEBUG, "Message: $msg")
-//        val rules = getMessages()
+        val messages = getMessages()
 
-//        for (i in rules) {
-//            if (msg.contains(Regex(i.keyword, RegexOption.IGNORE_CASE))) {
-//                replyText = i.msg
-//            } else {
-//                return
-//            }
-//
+        for (i in messages) {
+            if (msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+                replyText = i.replyMsg
+            } else {
+                return
+            }
+
 //            val notifName = wNotification.name
 //            if ((i.whatsapp || i.facebook || i.slack) && (hasAppName(
 //                    notifName,
@@ -69,8 +70,8 @@ class NotificationService: NotificationListenerService() {
 //            ) {
 //                callback()
 //            }
-//        }
-//        callback()
+        }
+        callback()
     }
 
     private fun wNotificationPendingIntent(sbn: StatusBarNotification?, wNotification: WearableNotification, intent: Intent) {
@@ -89,5 +90,22 @@ class NotificationService: NotificationListenerService() {
 //            isRunning = true
             e.printStackTrace()
         }
+    }
+
+    private fun getMessages(): MutableList<Message> {
+        val messages: MutableList<Message> = mutableListOf()
+
+        val job = CoroutineScope(Dispatchers.Default).launch {
+            val res = messageRepo.getAllMessages()
+            res.let {
+                it.forEach { message ->
+                    messages.add(message)
+                }
+            }
+        }
+        runBlocking {
+            job.join()
+        }
+        return messages
     }
 }
