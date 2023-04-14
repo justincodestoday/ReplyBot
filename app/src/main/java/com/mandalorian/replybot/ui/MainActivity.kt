@@ -76,6 +76,8 @@ class MainActivity : AppCompatActivity() {
             stopService()
             drawerLayout.closeDrawer(GravityCompat.START)
         }
+
+        registerBroadcastReceiver()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -153,5 +155,10 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.toLoginFragment)
             drawerLayout.closeDrawer(GravityCompat.START)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(myReceiver)
     }
 }

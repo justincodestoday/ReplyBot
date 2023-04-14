@@ -54,7 +54,7 @@ class MyService: Service() {
     }
 
     fun stopNotificationService() {
-        val intent = Intent(this, NotificationService::class.java).also {
+        Intent(this, NotificationService::class.java).also {
             stopService(it)
         }
     }
