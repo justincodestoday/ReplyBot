@@ -26,25 +26,25 @@ class MyService: Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        startForegroundService()
-//        return START_STICKY
-//    }
-//
-//    fun startForegroundService() {
-//        val intent = Intent(this, MainActivity::class.java)
-//        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE)
-//        val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_ID)
-//            .setContentTitle("Auto Reply BOT")
-//            .setContentText("Notification listener is running")
-//            .setSmallIcon(R.drawable.ic_notifications)
-//            .setContentIntent(pendingIntent)
-//            .setPriority(NotificationManager.IMPORTANCE_HIGH)
-//            .build()
-//
-//        startForeground(1, notification)
-//        startNotificationService()
-//    }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForegroundService()
+        return START_STICKY
+    }
+
+    fun startForegroundService() {
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+        val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_ID)
+            .setContentTitle("Auto Reply BOT")
+            .setContentText("Notification listener is running")
+            .setSmallIcon(R.drawable.ic_notifications)
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+            .build()
+
+        startForeground(1, notification)
+        startNotificationService()
+    }
 
     fun startNotificationService() {
         Intent(this, NotificationService::class.java).also {

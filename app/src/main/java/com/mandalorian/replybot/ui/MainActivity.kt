@@ -1,6 +1,7 @@
 package com.mandalorian.replybot.ui
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 import com.mandalorian.replybot.R
+import com.mandalorian.replybot.receiver.MyBroadcastReceiver
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.service.MyService
 import com.mandalorian.replybot.utils.Constants
@@ -30,6 +32,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var myService: MyService
+    private lateinit var myReceiver: MyBroadcastReceiver
     private val NOTIFICATION_REQ_CODE = 0
     private val FOREGROUND_REQ_CODE = 1
 
@@ -49,9 +53,9 @@ class MainActivity : AppCompatActivity() {
             .build()
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        NotificationUtils.createNotificationChannel(this)
-        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
-        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
+//        NotificationUtils.createNotificationChannel(this)
+//        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
+//        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
 
         if (auth.isAuthenticate()) {
             navController.navigate(R.id.toHomeFragment)
@@ -109,6 +113,24 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun registerBroadcastReceiver() {
+        NotificationUtils.createNotificationChannel(this)
+        checkPermission(
+            "android.permission.POST_NOTIFICATIONS",
+            NOTIFICATION_REQ_CODE
+        )
+        checkPermission(
+            "android.permission.FOREGROUND_SERVICE",
+            FOREGROUND_REQ_CODE
+        )
+
+        val filter = IntentFilter()
+        filter.addAction("com.replyBot.MyBroadcast")
+
+        myReceiver = MyBroadcastReceiver()
+        registerReceiver(myReceiver, filter)
     }
 
     fun startService() {

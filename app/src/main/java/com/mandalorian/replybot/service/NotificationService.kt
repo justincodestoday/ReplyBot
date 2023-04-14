@@ -12,7 +12,7 @@ import com.mandalorian.replybot.utils.NotificationUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class NotificationService: NotificationListenerService() {
+class NotificationService : NotificationListenerService() {
     @Inject
     lateinit var messageRepo: FireStoreMessageRepository
     private var msgReceived: String = ""
@@ -22,27 +22,13 @@ class NotificationService: NotificationListenerService() {
         super.onNotificationPosted(sbn, rankingMap)
 
         val wNotification = NotificationUtils.getWearableNotification(sbn) ?: return
-        val title = wNotification.bundle?.getString("android.title") ?: "Empty"
-        val msg = wNotification.bundle?.getString("android.text") ?: "Empty"
+//        val title = wNotification.bundle?.getString("android.title") ?: "Empty"
+//        val msg = wNotification.bundle?.getString("android.text") ?: "Empty"
 
-//        if (!title.contains(Regex("caaron|lo|nathalie|joel|justin|yan|xiang|vikram"))) {
-//            RegexOption.IGNORE_CASE
-//            return
-//        }
-
-        val intent = Intent()
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val bundle = Bundle()
-
-//        val replyText = "Hello, I'm implementing a reply bot"
-
-//        if (msg.contains(Regex("hi|hello")))
-//
-//            bundle.putCharSequence(wNotification.remoteInputs[0].resultKey, replyText)
-
-        RemoteInput.addResultsToIntent(
-            wNotification.remoteInputs.toTypedArray(), intent, bundle
-        )
+        checkMsg(wNotification) {
+            createIntentBundle(wNotification)
+            wNotificationPendingIntent(sbn, wNotification)
+        }
     }
 
     private fun checkMsg(wNotification: WearableNotification, callback: () -> Unit) {
@@ -62,19 +48,19 @@ class NotificationService: NotificationListenerService() {
                 return
             }
 
-//            val notifName = wNotification.name
-//            if ((i.whatsapp || i.facebook || i.slack) && (hasAppName(
-//                    notifName,
-//                    "com.whatsapp"
-//                ) || hasAppName(notifName, "com.facebook"))
-//            ) {
-//                callback()
-//            }
+            val notifName = wNotification.name
+            if (hasAppName(notifName, "com.discord") || hasAppName(notifName, "com.facebook")) {
+                callback()
+            }
         }
         callback()
     }
 
-    private fun wNotificationPendingIntent(sbn: StatusBarNotification?, wNotification: WearableNotification, intent: Intent) {
+    private fun wNotificationPendingIntent(
+        sbn: StatusBarNotification?,
+        wNotification: WearableNotification
+    ) {
+        val intent = Intent()
         try {
             wNotification.pendingIntent?.let {
                 CoroutineScope(Dispatchers.Default).launch {
@@ -92,6 +78,16 @@ class NotificationService: NotificationListenerService() {
         }
     }
 
+    private fun createIntentBundle(wNotification: WearableNotification) {
+        val intent = Intent()
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        val bundle = Bundle()
+        bundle.putCharSequence(wNotification.remoteInputs[0].resultKey, replyText)
+
+        RemoteInput.addResultsToIntent(wNotification.remoteInputs.toTypedArray(), intent, bundle)
+    }
+
     private fun getMessages(): MutableList<Message> {
         val messages: MutableList<Message> = mutableListOf()
 
@@ -107,5 +103,9 @@ class NotificationService: NotificationListenerService() {
             job.join()
         }
         return messages
+    }
+
+    private fun hasAppName(notifName: String, appName: String): Boolean {
+        return notifName.contains(Regex(appName, RegexOption.IGNORE_CASE))
     }
 }
