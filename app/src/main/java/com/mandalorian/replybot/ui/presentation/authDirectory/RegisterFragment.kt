@@ -48,6 +48,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                     }
                 }
             }
+
+            tvToLogin.setOnClickListener {
+                navController.navigate(R.id.loginFragment)
+            }
         }
     }
 

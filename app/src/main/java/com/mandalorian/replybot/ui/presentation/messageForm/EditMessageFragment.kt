@@ -1,22 +1,50 @@
 package com.mandalorian.replybot.ui.presentation.messageForm
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import com.mandalorian.replybot.R
-import com.mandalorian.replybot.databinding.MessageFormBinding
-import com.mandalorian.replybot.ui.presentation.base.BaseFragment
-import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.MessageFormViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.UpdateMessageViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class EditMessageFragment : BaseFragment<MessageFormBinding>() {
-    override val viewModel: MessageFormViewModel by viewModels()
-    override fun getLayoutResource(): Int = R.layout.message_form
+@AndroidEntryPoint
+class EditMessageFragment : BaseMessageFragment() {
+    override val viewModel: UpdateMessageViewModel by viewModels()
+
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-        binding?.viewModel = viewModel
-        binding?.lifecycleOwner = viewLifecycleOwner
+    }
+
+
+    override fun onBindData(view: View) {
+        super.onBindData(view)
+
+        val args: EditMessageFragmentArgs by navArgs()
+        viewModel.getMessageById(args.id)
+        viewModel.message.observe(viewLifecycleOwner) {
+            binding?.apply {
+                etTitle.setText(it.title)
+                etSendMessage.setText(it.sendMsg)
+                etReplyMessage.setText(it.replyMsg)
+
+                button.setOnClickListener {
+                    val message = getMessage()
+                    message?.let {
+                        viewModel.updateMessage(args.id, message)
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.finish.collect {
+                val bundle = Bundle()
+                bundle.putBoolean("refresh", true)
+                setFragmentResult("from_update", bundle)
+                navController.popBackStack()
+            }
+        }
     }
 }

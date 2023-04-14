@@ -1,6 +1,9 @@
 package com.mandalorian.replybot.ui.presentation.base.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mandalorian.replybot.model.Message
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 abstract class BaseViewModel: ViewModel() {

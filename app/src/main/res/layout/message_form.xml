@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.mandalorian.replybot.ui.presentation.messageForm.viewModel.MessageFormViewModel" />
+            type="com.mandalorian.replybot.ui.presentation.messageForm.viewModel.CreateMessageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
