@@ -49,7 +49,10 @@ class NotificationService : NotificationListenerService() {
             }
 
             val notifName = wNotification.name
-            if (hasAppName(notifName, "com.discord") || hasAppName(notifName, "com.facebook")) {
+            if (hasAppName(notifName, "com.discord") ||
+                hasAppName(notifName, "com.facebook") ||
+                hasAppName(notifName, "com.messenger")
+            ) {
                 callback()
             }
         }
