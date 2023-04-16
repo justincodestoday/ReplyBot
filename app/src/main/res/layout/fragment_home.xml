@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.presentation.home.HomeFragment">
+
+
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tabLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/image_button_circle"
+            android:backgroundTint="@color/dark_blue"
+            android:contentDescription="TODO"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add"
+            app:tint="@color/white" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_alignParentBottom="true" />
 
         <!--        <com.google.android.material.tabs.TabLayout-->
         <!--            android:id="@+id/tabLayout"-->
@@ -24,7 +41,5 @@
         <!--            android:layout_height="wrap_content"-->
         <!--            app:tabIndicatorHeight="3dp"-->
         <!--            app:tabMode="fixed" />-->
-
-
-    </FrameLayout>
+    </RelativeLayout>
 </layout>

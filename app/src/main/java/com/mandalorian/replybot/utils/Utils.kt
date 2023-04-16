@@ -3,7 +3,7 @@ package com.mandalorian.replybot.utils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-object Util {
+object Utils {
 
     fun <T> RecyclerView.Adapter<*>.update(
         oldList: List<T>,
