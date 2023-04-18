@@ -86,7 +86,7 @@ class NotificationService : NotificationListenerService() {
             }
 
             val notifName = wNotification.name
-            if (hasAppName(notifName, "com.facebook.orca")) {
+            if (hasAppName(notifName, "com.facebook.orca" ) || hasAppName(notifName, "com.whatsapp")) {
                 callback()
             }
         }

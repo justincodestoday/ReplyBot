@@ -52,19 +52,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         )
         binding?.viewPager?.adapter = adapter
 
-        setFragmentResultListener("from_add_product") { _, result ->
-            val refresh = result.getBoolean("refresh")
-            if(refresh) {
-                viewModel.getMessages()
-            }
-        }
-
-        setFragmentResultListener("from_update") { _, result ->
-            val refresh = result.getBoolean("refresh")
-            if(refresh) {
-                viewModel.getMessages()
-            }
-        }
+//        setFragmentResultListener("from_add_product") { _, result ->
+//            val refresh = result.getBoolean("refresh")
+//            if(refresh) {
+//                viewModel.getMessages()
+//            }
+//        }
+//
+//        setFragmentResultListener("from_update") { _, result ->
+//            val refresh = result.getBoolean("refresh")
+//            if(refresh) {
+//                viewModel.getMessages()
+//            }
+//        }
     }
 
     override fun onBindData(view: View) {
