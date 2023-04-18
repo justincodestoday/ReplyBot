@@ -14,16 +14,16 @@ class FireStoreMessageRepository(private val ref: CollectionReference): MessageR
         return res.toObject(Message::class.java)?.copy(id = id)
     }
 
-    override suspend fun addMessage(message: Message, isActivated: Boolean) {
+    override suspend fun addMessage(message: Message) {
         val doc = ref.document() // Create a new document with a random ID
         val id = doc.id // Get the ID of the new document
         val updatedMessage = message.copy(id = id) // Set the ID and createdAt fields of the product
         doc.set(updatedMessage).await()
     }
 
-    override suspend fun updateMessage(id: String, message: Message): Message {
+    override suspend fun updateMessage(id: String, message: Message, isActivated: Boolean): Message {
         val doc = ref.document(id)
-        val updatedMessage = message.copy(id = id)
+        val updatedMessage = message.copy(id = id, isActivated = isActivated)
         doc.set(updatedMessage).await()
         return updatedMessage
     }

@@ -26,24 +26,30 @@ class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) :
     fun updateMessage(
         id: String,
         message: Message,
+        isActivated: Boolean
     ) {
-        val validationStatus = message.title?.let {
-            message.receipt?.let { it1 ->
-                message.replyMsg?.let { it2 ->
-                    Utils.validate(
-                        it,
-                        it1,
-                        it2
-                    )
-                }
-            }
+        val validationStatus = message.let {
+            Utils.validate(it.title, it.receipt, it.replyMsg)
         }
         viewModelScope.launch {
-            if (validationStatus == true) {
-                safeApiCall { repo.updateMessage(id, message) }
+            if (validationStatus) {
+                safeApiCall { repo.updateMessage(id, message, isActivated) }
                 finish.emit(Unit)
             } else {
                 error.emit("Validation failed")
+            }
+        }
+    }
+
+    fun deleteMessage(
+        id: String
+    ) {
+        viewModelScope.launch {
+            try {
+                safeApiCall { repo.deleteMessage(id) }
+                finish.emit(Unit)
+            } catch(e: Exception) {
+                error.emit(e.message.toString())
             }
         }
     }

@@ -25,19 +25,32 @@ class EditMessageFragment : BaseMessageFragment() {
         val args: EditMessageFragmentArgs by navArgs()
         viewModel.getMessageById(args.id)
         viewModel.message.observe(viewLifecycleOwner) {
+            var status = it.isActivated
             binding?.apply {
                 etTitle.setText(it.title)
                 etSendMessage.setText(it.receipt)
                 etReplyMessage.setText(it.replyMsg)
+                switchToggle.isChecked = status
+//                status = switchToggle.isChecked
 
                 button.setOnClickListener {
                     val message = getMessage()
-                    message?.let {
-                        viewModel.updateMessage(args.id, message)
+                    if(switchToggle.isChecked) {
+                        message?.let {
+                            viewModel.updateMessage(args.id, message, isActivated = true)
+                        }
+                    } else {
+                        message?.let {
+                            viewModel.updateMessage(args.id, message, isActivated = false               )
+                        }
                     }
+                }
+                btnDelete.setOnClickListener {
+                    viewModel.deleteMessage(args.id)
                 }
             }
         }
+
         lifecycleScope.launch {
             viewModel.finish.collect {
                 val bundle = Bundle()
