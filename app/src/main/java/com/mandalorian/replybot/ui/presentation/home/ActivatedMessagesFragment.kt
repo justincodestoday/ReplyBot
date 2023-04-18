@@ -11,7 +11,6 @@ import com.mandalorian.replybot.databinding.FragmentActivatedMessagesBinding
 import com.mandalorian.replybot.ui.presentation.adapter.MessagesAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import com.mandalorian.replybot.ui.presentation.home.viewModel.ActivatedMessageViewModel
-import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,16 +25,6 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
 //        binding?.lifecycleOwner = viewLifecycleOwner
 
         setupAdapter()
-
-
-
-        setFragmentResultListener("from_update") { _, result ->
-            val refresh = result.getBoolean("refresh")
-            if (refresh) {
-                viewModel.getMessages()
-            }
-        }
-
     }
 
     override fun onBindData(view: View) {
@@ -47,7 +36,14 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
 
         setFragmentResultListener("from_add_product") { _, result ->
             val refresh = result.getBoolean("refresh")
-            if(refresh) {
+            if (refresh) {
+                viewModel.getMessages()
+            }
+        }
+
+        setFragmentResultListener("from_update") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
                 viewModel.getMessages()
             }
         }

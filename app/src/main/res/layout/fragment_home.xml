@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel" />
+    </data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.presentation.home.HomeFragment">
-
-
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
@@ -24,6 +29,7 @@
             android:background="@drawable/image_button_circle"
             android:backgroundTint="@color/dark_blue"
             android:contentDescription="TODO"
+            android:onClick="@{() -> viewModel.navigateToCreate() }"
             android:padding="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_add"

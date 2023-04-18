@@ -1,75 +1,70 @@
 package com.mandalorian.replybot.ui.presentation.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentHomeBinding
 import com.mandalorian.replybot.ui.presentation.adapter.HomeAdapter
-import com.mandalorian.replybot.ui.presentation.adapter.MessagesAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
-import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
 import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
-import com.mandalorian.replybot.ui.presentation.messageForm.CreateMessageFragment
-import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val activatedFragment = ActivatedMessagesFragment.getInstance()
-    private val deactivatedMessagesFragment = DeactivatedMessagesFragment.getInstance()
-
+    private val deactivatedFragment = DeactivatedMessagesFragment.getInstance()
     override val viewModel: HomeViewModel by viewModels()
-
     override fun getLayoutResource() = R.layout.fragment_home
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentHomeBinding.inflate(inflater, container, false)
-//        return binding.root
-//    }
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
 
+        binding?.viewModel = viewModel
 
-        binding?.btnAdd?.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
-            NavHostFragment.findNavController(this).navigate(action)
-        }
-
-        val adapter = HomeAdapter(
-            listOf(activatedFragment, deactivatedMessagesFragment),
-            childFragmentManager,
-            lifecycle
-        )
-        binding?.viewPager?.adapter = adapter
-
-//        setFragmentResultListener("from_add_product") { _, result ->
-//            val refresh = result.getBoolean("refresh")
-//            if(refresh) {
-//                viewModel.getMessages()
-//            }
+//        binding?.btnAdd?.setOnClickListener {
+//            navigateToCreate()
 //        }
-//
-//        setFragmentResultListener("from_update") { _, result ->
-//            val refresh = result.getBoolean("refresh")
-//            if(refresh) {
-//                viewModel.getMessages()
-//            }
-//        }
+
+        setupAdapter()
+        setupTabLayout()
     }
 
     override fun onBindData(view: View) {
         super.onBindData(view)
 
+        lifecycleScope.launch {
+            viewModel.toCreateFragment.collect {
+                navigateToCreate()
+            }
+        }
     }
 
+    private fun setupAdapter() {
+        val adapter = HomeAdapter(
+            listOf(activatedFragment, deactivatedFragment),
+            childFragmentManager,
+            lifecycle
+        )
+        binding?.viewPager?.adapter = adapter
+    }
+
+    private fun setupTabLayout() {
+        //        val tabs = listOf("Activated", "Deactivated")
+        binding?.let {
+            TabLayoutMediator(it.tabLayout, it.viewPager) { tab, position ->
+//                tab.text = tabs[position]
+                when (position) {
+                    0 -> tab.text = "Activated"
+                    1 -> tab.text = "Deactivated"
+                }
+            }.attach()
+        }
+    }
+
+    private fun navigateToCreate() {
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
+        navController.navigate(action)
+    }
 }
