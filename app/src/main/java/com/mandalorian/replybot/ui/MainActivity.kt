@@ -1,6 +1,5 @@
 package com.mandalorian.replybot.ui
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -16,13 +15,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.receiver.MyBroadcastReceiver
 import com.mandalorian.replybot.service.AuthService
-import com.mandalorian.replybot.service.MyService
+import com.mandalorian.replybot.service.NotificationService
 import com.mandalorian.replybot.utils.Constants
 import com.mandalorian.replybot.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,8 +30,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var myService: MyService
-    private lateinit var myReceiver: MyBroadcastReceiver
     private val NOTIFICATION_REQ_CODE = 0
     private val FOREGROUND_REQ_CODE = 1
 
@@ -52,10 +48,6 @@ class MainActivity : AppCompatActivity() {
             .setOpenableLayout(drawerLayout)
             .build()
 //        setupActionBarWithNavController(navController, appBarConfiguration)
-
-//        NotificationUtils.createNotificationChannel(this)
-//        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
-//        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
 
         if (auth.isAuthenticate()) {
             navController.navigate(R.id.toHomeFragment)
@@ -77,7 +69,11 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        registerBroadcastReceiver()
+        NotificationUtils.createNotificationChannel(this)
+        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
+        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
+
+//        registerBroadcastReceiver()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -117,35 +113,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerBroadcastReceiver() {
-        NotificationUtils.createNotificationChannel(this)
-        checkPermission(
-            "android.permission.POST_NOTIFICATIONS",
-            NOTIFICATION_REQ_CODE
-        )
-        checkPermission(
-            "android.permission.FOREGROUND_SERVICE",
-            FOREGROUND_REQ_CODE
-        )
+//    private fun registerBroadcastReceiver() {
+//        NotificationUtils.createNotificationChannel(this)
+//        checkPermission(
+//            "android.permission.POST_NOTIFICATIONS",
+//            NOTIFICATION_REQ_CODE
+//        )
+//        checkPermission(
+//            "android.permission.FOREGROUND_SERVICE",
+//            FOREGROUND_REQ_CODE
+//        )
+//
+//        val filter = IntentFilter()
+//        filter.addAction("com.replyBot.MyBroadcast")
+//
+//        myReceiver = MyBroadcastReceiver()
+//        registerReceiver(myReceiver, filter)
+//    }
 
-        val filter = IntentFilter()
-        filter.addAction("com.replyBot.MyBroadcast")
-
-        myReceiver = MyBroadcastReceiver()
-        registerReceiver(myReceiver, filter)
+    private fun startService() {
+        NotificationService.start()
     }
 
-    fun startService() {
-        Intent(this, MyService::class.java).also {
-            intent.putExtra("EXTRA_DATA", "Hello from MainActivity")
-            startService(it)
-        }
-    }
-
-    fun stopService() {
-        Intent(this, MyService::class.java).also {
-            stopService(it)
-        }
+    private fun stopService() {
+        NotificationService.stop()
     }
 
     private fun logout(drawerLayout: DrawerLayout) {
@@ -157,8 +148,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(myReceiver)
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        unregisterReceiver(myReceiver)
+//    }
 }
