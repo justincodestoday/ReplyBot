@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupNavController()
-//        checkLoginStatus()
+        checkLoginStatus()
 
         NotificationUtils.createNotificationChannel(this)
         checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)

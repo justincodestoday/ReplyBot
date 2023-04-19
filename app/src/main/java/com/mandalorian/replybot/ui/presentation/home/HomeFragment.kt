@@ -22,10 +22,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onBindView(view, savedInstanceState)
 
         binding?.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
 
-//        binding?.btnAdd?.setOnClickListener {
-//            navigateToCreate()
-//        }
+        binding?.btnAdd?.setOnClickListener {
+            navigateToCreate()
+        }
 
         setupAdapter()
         setupTabLayout()
@@ -64,7 +65,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun navigateToCreate() {
-        val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
+        val action = HomeFragmentDirections.toCreateMessageFragment()
         navController.navigate(action)
+        navController.popBackStack(R.id.createMessageFragment, false)
     }
 }
