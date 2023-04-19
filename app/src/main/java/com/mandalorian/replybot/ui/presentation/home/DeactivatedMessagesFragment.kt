@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mandalorian.replybot.R
@@ -11,11 +12,18 @@ import com.mandalorian.replybot.databinding.FragmentDeactivatedMessagesBinding
 import com.mandalorian.replybot.ui.presentation.adapter.MessagesAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import com.mandalorian.replybot.ui.presentation.home.viewModel.DeactivatedMessageViewModel
+import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DeactivatedMessagesFragment : BaseFragment<FragmentDeactivatedMessagesBinding>() {
     override val viewModel: DeactivatedMessageViewModel by viewModels()
+    private val parentViewModel: HomeViewModel by viewModels(
+        ownerProducer = {
+            requireParentFragment()
+        }
+    )
     private lateinit var adapter: MessagesAdapter
     override fun getLayoutResource(): Int = R.layout.fragment_deactivated_messages
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
@@ -32,9 +40,8 @@ class DeactivatedMessagesFragment : BaseFragment<FragmentDeactivatedMessagesBind
             adapter.setMessage(it)
         }
 
-        setFragmentResultListener("from_update") { _, result ->
-            val refresh = result.getBoolean("refresh")
-            if(refresh) {
+        lifecycleScope.launch {
+            parentViewModel.refresh.collect {
                 viewModel.getMessages()
             }
         }

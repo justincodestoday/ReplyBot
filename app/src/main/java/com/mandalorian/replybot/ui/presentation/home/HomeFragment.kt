@@ -2,6 +2,7 @@ package com.mandalorian.replybot.ui.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,12 +25,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding?.viewModel = viewModel
         binding?.lifecycleOwner = viewLifecycleOwner
 
-        binding?.btnAdd?.setOnClickListener {
-            navigateToCreate()
-        }
+//        binding?.btnAdd?.setOnClickListener {
+//            navigateToCreate()
+//        }
 
         setupAdapter()
         setupTabLayout()
+
+        setFragmentResultListener("from_add_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.onRefresh()
+            }
+        }
+
+        setFragmentResultListener("from_update") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.onRefresh()
+            }
+        }
     }
 
     override fun onBindData(view: View) {
@@ -67,6 +82,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun navigateToCreate() {
         val action = HomeFragmentDirections.toCreateMessageFragment()
         navController.navigate(action)
-        navController.popBackStack(R.id.createMessageFragment, false)
+//        navController.popBackStack(R.id.createMessageFragment, false)
     }
 }

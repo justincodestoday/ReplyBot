@@ -7,10 +7,17 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel: BaseViewModel() {
     val toCreateFragment: MutableSharedFlow<Unit> = MutableSharedFlow()
+    val refresh: MutableSharedFlow<Unit> = MutableSharedFlow()
 
     fun navigateToCreate() {
         viewModelScope.launch {
             toCreateFragment.emit(Unit)
+        }
+    }
+
+    fun onRefresh() {
+        viewModelScope.launch {
+            refresh.emit(Unit)
         }
     }
 }
