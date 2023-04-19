@@ -19,7 +19,7 @@ class CreateMessageViewModel @Inject constructor(repo: MessageRepository) :
             Utils.validate(it.title, it.receipt, it.replyMsg)
         }
         viewModelScope.launch {
-            if (validationStatus == true) {
+            if (validationStatus) {
                 safeApiCall { repo.addMessage(message) }
                 finish.emit(Unit)
                 Log.d("debugging", "Please la pt.2")

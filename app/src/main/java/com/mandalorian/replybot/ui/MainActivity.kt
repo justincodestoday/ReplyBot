@@ -1,6 +1,5 @@
 package com.mandalorian.replybot.ui
 
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +17,6 @@ import androidx.navigation.ui.navigateUp
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
 import com.mandalorian.replybot.R
-import com.mandalorian.replybot.receiver.MyBroadcastReceiver
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.service.NotificationService
 import com.mandalorian.replybot.utils.Constants
@@ -30,6 +28,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navigationView: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
     private val NOTIFICATION_REQ_CODE = 0
     private val FOREGROUND_REQ_CODE = 1
 
@@ -39,23 +39,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setupNavController()
+        checkLoginStatus()
 
-        navController = findNavController(R.id.nav_host_fragment)
-        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
-        NavigationUI.setupWithNavController(navigationView, navController)
-        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        appBarConfiguration = AppBarConfiguration.Builder(navController.graph)
-            .setOpenableLayout(drawerLayout)
-            .build()
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        if (auth.isAuthenticate()) {
-            navController.navigate(R.id.toHomeFragment)
-        } else {
-            navController.navigate(R.id.toLoginFragment)
-        }
-
-        logout(drawerLayout)
+        NotificationUtils.createNotificationChannel(this)
+        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
+        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
 
         val btnActivate = findViewById<MaterialButton>(R.id.btnActivate)
         btnActivate.setOnClickListener {
@@ -69,15 +58,26 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        NotificationUtils.createNotificationChannel(this)
-        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
-        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
-
-//        registerBroadcastReceiver()
+        val btnLogout = findViewById<MaterialButton>(R.id.btnLogout)
+        btnLogout.setOnClickListener {
+            logout()
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onNavigateUp()
+    }
+
+    private fun setupNavController() {
+        navController = findNavController(R.id.nav_host_fragment)
+        navigationView = findViewById(R.id.navigation_view)
+        NavigationUI.setupWithNavController(navigationView, navController)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        appBarConfiguration = AppBarConfiguration.Builder(navController.graph)
+//            .setOpenableLayout(drawerLayout)
+            .build()
+//        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     private fun checkPermission(permission: String, requestCode: Int) {
@@ -113,23 +113,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun registerBroadcastReceiver() {
-//        NotificationUtils.createNotificationChannel(this)
-//        checkPermission(
-//            "android.permission.POST_NOTIFICATIONS",
-//            NOTIFICATION_REQ_CODE
-//        )
-//        checkPermission(
-//            "android.permission.FOREGROUND_SERVICE",
-//            FOREGROUND_REQ_CODE
-//        )
-//
-//        val filter = IntentFilter()
-//        filter.addAction("com.replyBot.MyBroadcast")
-//
-//        myReceiver = MyBroadcastReceiver()
-//        registerReceiver(myReceiver, filter)
-//    }
+    private fun checkLoginStatus() {
+        if (auth.isAuthenticate()) {
+            navController.navigate(R.id.toHomeFragment)
+        } else {
+            navController.navigate(R.id.toLoginFragment)
+        }
+    }
 
     private fun startService() {
         NotificationService.start()
@@ -139,17 +129,8 @@ class MainActivity : AppCompatActivity() {
         NotificationService.stop()
     }
 
-    private fun logout(drawerLayout: DrawerLayout) {
-        val btnLogout = findViewById<MaterialButton>(R.id.btnLogout)
-        btnLogout.setOnClickListener {
-            auth.deAuthenticate()
-            navController.navigate(R.id.toLoginFragment)
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
+    private fun logout() {
+        auth.deAuthenticate()
+        navController.navigate(R.id.toLoginFragment)
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        unregisterReceiver(myReceiver)
-//    }
 }

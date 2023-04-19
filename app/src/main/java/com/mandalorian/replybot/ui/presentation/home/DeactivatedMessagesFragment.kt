@@ -11,7 +11,6 @@ import com.mandalorian.replybot.databinding.FragmentDeactivatedMessagesBinding
 import com.mandalorian.replybot.ui.presentation.adapter.MessagesAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import com.mandalorian.replybot.ui.presentation.home.viewModel.DeactivatedMessageViewModel
-import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,21 +20,23 @@ class DeactivatedMessagesFragment : BaseFragment<FragmentDeactivatedMessagesBind
     override fun getLayoutResource(): Int = R.layout.fragment_deactivated_messages
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
+//        binding?.viewModel = viewModel
+//        binding?.lifecycleOwner = viewLifecycleOwner
 
         setupAdapter()
-        setFragmentResultListener("from_update") { _, result ->
-            val refresh = result.getBoolean("refresh")
-            if(refresh) {
-                viewModel.getMessages()
-            }
-        }
-
     }
 
     override fun onBindData(view: View) {
         super.onBindData(view)
         viewModel.messages.observe(viewLifecycleOwner) {
             adapter.setMessage(it)
+        }
+
+        setFragmentResultListener("from_update") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if(refresh) {
+                viewModel.getMessages()
+            }
         }
     }
 

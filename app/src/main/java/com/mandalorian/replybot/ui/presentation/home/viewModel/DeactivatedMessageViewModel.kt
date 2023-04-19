@@ -10,7 +10,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DeactivatedMessageViewModel @Inject constructor(private val repo: MessageRepository): BaseViewModel() {
+class DeactivatedMessageViewModel @Inject constructor(private val repo: MessageRepository) :
+    BaseViewModel() {
     val messages: MutableLiveData<List<Message>> = MutableLiveData()
 
     override suspend fun onViewCreated() {
@@ -22,7 +23,7 @@ class DeactivatedMessageViewModel @Inject constructor(private val repo: MessageR
         viewModelScope.launch {
             val res = safeApiCall { repo.getAllMessages() }
             res?.let {
-                messages.value = it.filter { !it.isActivated }
+                messages.value = it.filter { message -> !message.isActivated }
             }
         }
     }
