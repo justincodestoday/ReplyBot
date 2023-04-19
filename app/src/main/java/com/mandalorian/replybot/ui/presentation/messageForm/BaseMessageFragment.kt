@@ -23,7 +23,7 @@ abstract class BaseMessageFragment : BaseFragment<FragmentCreateMessageBinding>(
             val validationStatus = Utils.validate(
                 etTitle.text.toString(),
                 etSendMessage.text.toString(),
-                etReplyMessage.text.toString()
+                etReplyMessage.text.toString(),
             )
 
             if(!validationStatus) {

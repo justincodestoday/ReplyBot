@@ -31,6 +31,8 @@ class EditMessageFragment : BaseMessageFragment() {
                 etSendMessage.setText(it.receipt)
                 etReplyMessage.setText(it.replyMsg)
                 switchToggle.isChecked = status
+                tvName.setText("Edit Message")
+                button.setText("Edit")
 //                status = switchToggle.isChecked
 
                 button.setOnClickListener {
