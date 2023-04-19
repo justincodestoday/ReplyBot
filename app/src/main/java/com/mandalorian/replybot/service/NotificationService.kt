@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import com.google.common.collect.ComparisonChain.start
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mandalorian.replybot.model.Message
@@ -18,91 +17,33 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class NotificationService : NotificationListenerService() {
-
-    private lateinit var messageRepo: FireStoreMessageRepository
-    private lateinit var intent: Intent
+    @Inject
+    lateinit var messageRepo: FireStoreMessageRepository
+    lateinit var intent: Intent
     private var msgReceived: String = ""
     private var replyText: String = ""
-    private lateinit var title: String
-    private lateinit var wNotification: WearableNotification
 
     override fun onCreate() {
         super.onCreate()
+        start()
         messageRepo = FireStoreMessageRepository(Firebase.firestore.collection("messages"))
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
         super.onNotificationPosted(sbn, rankingMap)
 
-        wNotification = NotificationUtils.getWearableNotification(sbn) ?: return
-        title = wNotification.bundle?.getString("android.title") ?: "Empty"
-        val msg = wNotification.bundle?.getString("android.text") ?: "Empty"
-
-        Log.d(Constants.DEBUG, "Found a notification")
-        Log.d(Constants.DEBUG, title)
-        Log.d(Constants.DEBUG, msg)
-        Log.d(Constants.DEBUG, checkTitle().toString())
-
         if (!isRunning) return
-        if (!checkTitle()) return
 
-        checkMsg {
-            Log.d(Constants.DEBUG, "check msg")
-            createIntentBundle()
-            wNotificationPendingIntent(sbn)
-        }
-        
-    }
+        val wNotification = NotificationUtils.getWearableNotification(sbn) ?: return
+        Log.d(Constants.DEBUG, wNotification.name) // package name like Facebook
 
-    private fun checkTitle(): Boolean {
-        if (title.contains(
-                Regex(
-                    "0086|6877|caaron|ching|justin|yan|xiang|vikram|khayrul|601606|joel|quan|Joel|nathalie",
-                    RegexOption.IGNORE_CASE
-                )
-            )
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun checkMsg(callback: () -> Unit) {
-        msgReceived = wNotification.bundle?.getString("android.text") ?: "Empty"
-        val messages = getMessages()
-        replyText = "I am a bot"
-
-        for (i in messages) {
-            if (msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
-                replyText = i.replyMsg
-                val notifName = wNotification.name
-//                if (replyIfAppIsSelected(true, "com.slack", notifName, callback)) break
-                if (replyIfAppIsSelected(true, "com.slack", notifName, callback)
-//                ||
-//                hasAppName(notifName, "com.facebook") ||
-//                hasAppName(notifName, "com.messenger")
-                ) {
-                    callback()
-                }
-            }
+        checkMsg(sbn, wNotification) {
+            createIntentBundle(wNotification)
+            wNotificationPendingIntent(sbn, wNotification)
         }
     }
 
-    private fun replyIfAppIsSelected(
-        isSelected: Boolean,
-        userSelectedApp: String,
-        notifName: String,
-        callback: () -> Unit
-    ): Boolean {
-        if (isSelected && hasAppName(notifName, userSelectedApp)) {
-            callback()
-            return true
-        }
-
-        return false
-    }
-
-    private fun createIntentBundle() {
+    private fun createIntentBundle(wNotification: WearableNotification) {
         intent = Intent()
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
@@ -111,28 +52,6 @@ class NotificationService : NotificationListenerService() {
 
         RemoteInput.addResultsToIntent(wNotification.remoteInputs.toTypedArray(), intent, bundle)
     }
-
-    private fun wNotificationPendingIntent(
-        sbn: StatusBarNotification?
-    ) {
-        try {
-            Log.d(Constants.DEBUG, wNotification.pendingIntent.toString())
-            wNotification.pendingIntent?.let {
-                CoroutineScope(Dispatchers.Default).launch {
-                    isRunning = false
-                    cancelNotification(sbn?.key)
-                    Log.d(Constants.DEBUG, "Before send")
-                    it.send(this@NotificationService, 0, intent)
-                    delay(500)
-                    isRunning = true
-                }
-            }
-        } catch (e: Exception) {
-            isRunning = true
-            e.printStackTrace()
-        }
-    }
-
 
     private fun getMessages(): MutableList<Message> {
         val messages: MutableList<Message> = mutableListOf()
@@ -151,12 +70,57 @@ class NotificationService : NotificationListenerService() {
         return messages
     }
 
+    private fun checkMsg(
+        sbn: StatusBarNotification?,
+        wNotification: WearableNotification,
+        callback: () -> Unit
+    ) {
+        msgReceived = wNotification.bundle?.getString("android.text") ?: "Empty"
+        val messages = getMessages()
+        Log.d(Constants.DEBUG, messages.toString())
+
+        for (i in messages) {
+            if (msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+                replyText = i.replyMsg
+                cancelNotification(sbn?.key)
+            }
+
+            val notifName = wNotification.name
+            if (hasAppName(notifName, "com.facebook.orca" ) || hasAppName(notifName, "com.whatsapp")) {
+                callback()
+            }
+        }
+    }
+
+    private fun wNotificationPendingIntent(
+        sbn: StatusBarNotification?,
+        wNotification: WearableNotification
+    ) {
+        wNotification.pendingIntent?.let {
+            CoroutineScope(Dispatchers.Default).launch {
+                try {
+                    Log.d(Constants.DEBUG, "what is the intent?")
+                    isRunning = false
+//                    cancelNotification(sbn?.key)
+
+                    it.send(this@NotificationService, 0, intent)
+                    delay(1000)
+                    isRunning = true
+                } catch (e: Exception) {
+                    isRunning = true
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
     private fun hasAppName(notifName: String, appName: String): Boolean {
         return notifName.contains(Regex(appName, RegexOption.IGNORE_CASE))
     }
 
+    // static object, no object is needed to access the properties inside companion object
     companion object {
-        private var isRunning: Boolean = false
+        private var isRunning = false
         fun start() {
             isRunning = true
         }

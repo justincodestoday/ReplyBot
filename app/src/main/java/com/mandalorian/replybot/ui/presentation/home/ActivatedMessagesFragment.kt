@@ -2,6 +2,7 @@ package com.mandalorian.replybot.ui.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,12 +10,12 @@ import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentActivatedMessagesBinding
 import com.mandalorian.replybot.ui.presentation.adapter.MessagesAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
-import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
+import com.mandalorian.replybot.ui.presentation.home.viewModel.ActivatedMessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>() {
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: ActivatedMessageViewModel by viewModels()
     private lateinit var adapter: MessagesAdapter
     override fun getLayoutResource(): Int = R.layout.fragment_activated_messages
 
@@ -22,6 +23,7 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
         super.onBindView(view, savedInstanceState)
 //        binding?.viewModel = viewModel
 //        binding?.lifecycleOwner = viewLifecycleOwner
+
         setupAdapter()
     }
 
@@ -30,6 +32,20 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
 
         viewModel.messages.observe(viewLifecycleOwner) {
             adapter.setMessage(it)
+        }
+
+        setFragmentResultListener("from_add_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getMessages()
+            }
+        }
+
+        setFragmentResultListener("from_update") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getMessages()
+            }
         }
     }
 

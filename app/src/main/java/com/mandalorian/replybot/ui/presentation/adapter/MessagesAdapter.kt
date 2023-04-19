@@ -42,15 +42,8 @@ class MessagesAdapter(
     fun setMessage(messages: List<Message>) {
         val oldProducts = this.messages
         this.messages = messages
-//        notifyDataSetChanged()
-        if (oldProducts.isEmpty()) {
-            update(emptyList(), messages) { task, task2 ->
-                task.id == task2.id
-            }
-        } else {
-            update(oldProducts, messages) { task, task2 ->
-                task.id == task2.id
-            }
+        update(oldProducts, messages) { task, task2 ->
+            task.id == task2.id
         }
     }
 }
