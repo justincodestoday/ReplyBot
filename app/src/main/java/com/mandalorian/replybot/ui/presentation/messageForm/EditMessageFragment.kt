@@ -6,6 +6,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.mandalorian.replybot.R
 import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.UpdateMessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -17,7 +18,6 @@ class EditMessageFragment : BaseMessageFragment() {
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
     }
-
 
     override fun onBindData(view: View) {
         super.onBindData(view)
@@ -41,13 +41,13 @@ class EditMessageFragment : BaseMessageFragment() {
                         }
                     } else {
                         message?.let {
-                            viewModel.updateMessage(args.id, message, isActivated = false               )
+                            viewModel.updateMessage(args.id, message, isActivated = false)
                         }
                     }
                 }
-                btnDelete.setOnClickListener {
-                    viewModel.deleteMessage(args.id)
-                }
+//                btnDelete.setOnClickListener {
+//                    viewModel.deleteMessage(args.id)
+//                }
             }
         }
 

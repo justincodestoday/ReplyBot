@@ -14,9 +14,6 @@
         app:destination="@id/homeFragment"
         app:popUpTo="@id/loginFragment"
         app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/toCreateMessageFragment"
-        app:destination="@id/createMessageFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.mandalorian.replybot.ui.presentation.authDirectory.LoginFragment"
