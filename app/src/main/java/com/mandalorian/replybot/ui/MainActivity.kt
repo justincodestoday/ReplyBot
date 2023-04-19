@@ -23,6 +23,7 @@ import com.mandalorian.replybot.R
 import com.mandalorian.replybot.receiver.MyBroadcastReceiver
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.service.MyService
+import com.mandalorian.replybot.service.NotificationService
 import com.mandalorian.replybot.utils.Constants
 import com.mandalorian.replybot.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,9 +54,11 @@ class MainActivity : AppCompatActivity() {
             .build()
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 
-//        NotificationUtils.createNotificationChannel(this)
-//        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
-//        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
+        NotificationUtils.createNotificationChannel(this)
+        checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
+        checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
+
+//        startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
 
         if (auth.isAuthenticate()) {
             navController.navigate(R.id.toHomeFragment)
@@ -76,7 +79,8 @@ class MainActivity : AppCompatActivity() {
             stopService()
             drawerLayout.closeDrawer(GravityCompat.START)
         }
-
+        startService(Intent(this, NotificationService::class.java))
+        startService()
         registerBroadcastReceiver()
     }
 
