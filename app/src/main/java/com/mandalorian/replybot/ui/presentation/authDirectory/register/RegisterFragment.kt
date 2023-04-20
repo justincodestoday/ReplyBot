@@ -1,24 +1,21 @@
-package com.mandalorian.replybot.ui.presentation.authDirectory
+package com.mandalorian.replybot.ui.presentation.authDirectory.register
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentRegisterBinding
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.registerViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.register.viewModel.RegisterViewModel
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
-    override val viewModel: registerViewModel by viewModels()
+    override val viewModel: RegisterViewModel by viewModels()
 
     override fun getLayoutResource() = R.layout.fragment_register
 

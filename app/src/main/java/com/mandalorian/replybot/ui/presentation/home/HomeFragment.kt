@@ -4,19 +4,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentHomeBinding
 import com.mandalorian.replybot.ui.presentation.adapter.HomeAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
+import com.mandalorian.replybot.ui.presentation.home.activatedMessages.ActivatedMessagesFragment
+import com.mandalorian.replybot.ui.presentation.home.deactivatedMessages.DeactivatedMessagesFragment
 import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
-import kotlinx.coroutines.launch
+import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModelFactory
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val activatedFragment = ActivatedMessagesFragment.getInstance()
     private val deactivatedFragment = DeactivatedMessagesFragment.getInstance()
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(navController)
+    }
     override fun getLayoutResource() = R.layout.fragment_home
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
@@ -24,10 +27,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         binding?.viewModel = viewModel
         binding?.lifecycleOwner = viewLifecycleOwner
-
-//        binding?.btnAdd?.setOnClickListener {
-//            navigateToCreate()
-//        }
 
         setupAdapter()
         setupTabLayout()
@@ -43,16 +42,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             val refresh = result.getBoolean("refresh")
             if (refresh) {
                 viewModel.onRefresh()
-            }
-        }
-    }
-
-    override fun onBindData(view: View) {
-        super.onBindData(view)
-
-        lifecycleScope.launch {
-            viewModel.toCreateFragment.collect {
-                navigateToCreate()
             }
         }
     }
@@ -77,11 +66,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }.attach()
         }
-    }
-
-    private fun navigateToCreate() {
-        val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
-        navController.navigate(action)
-//        navController.popBackStack(R.id.createMessageFragment, false)
     }
 }

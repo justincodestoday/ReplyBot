@@ -1,23 +1,19 @@
-package com.mandalorian.replybot.ui.presentation.authDirectory
-
+package com.mandalorian.replybot.ui.presentation.authDirectory.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentLoginBinding
-import com.mandalorian.replybot.ui.MainActivity
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.loginViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel.LoginViewModel
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    override val viewModel :loginViewModel by viewModels()
+    override val viewModel : LoginViewModel by viewModels()
     override fun getLayoutResource() = R.layout.fragment_login
 
 //    override fun onCreateView(
