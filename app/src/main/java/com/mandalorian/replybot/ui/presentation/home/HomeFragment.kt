@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun navigateToCreate() {
-        val action = HomeFragmentDirections.toCreateMessageFragment()
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
         navController.navigate(action)
 //        navController.popBackStack(R.id.createMessageFragment, false)
     }

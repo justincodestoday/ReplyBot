@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +25,10 @@ class CreateMessageFragment : BaseMessageFragment() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            navController.popBackStack()
+        }
 
         binding?.run {
             button.setOnClickListener {
