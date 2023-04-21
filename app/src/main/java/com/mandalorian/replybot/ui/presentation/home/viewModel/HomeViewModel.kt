@@ -1,18 +1,18 @@
 package com.mandalorian.replybot.ui.presentation.home.viewModel
 
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
+import com.mandalorian.replybot.ui.presentation.home.HomeFragmentDirections
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel: BaseViewModel() {
-    val toCreateFragment: MutableSharedFlow<Unit> = MutableSharedFlow()
+class HomeViewModel(private val navController: NavController) : BaseViewModel() {
     val refresh: MutableSharedFlow<Unit> = MutableSharedFlow()
 
-    fun navigateToCreate() {
-        viewModelScope.launch {
-            toCreateFragment.emit(Unit)
-        }
+    fun navigateToCreateMessage() {
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateMessageFragment()
+        navController.navigate(action)
     }
 
     fun onRefresh() {

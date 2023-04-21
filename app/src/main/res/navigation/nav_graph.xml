@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.authDirectory.LoginFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.authDirectory.login.LoginFragment"
         android:label="LoginFragment">
         <action
             android:id="@+id/action_login_to_home"
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.authDirectory.RegisterFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.authDirectory.register.RegisterFragment"
         android:label="RegisterFragment">
         <action
             android:id="@+id/action_register_to_login"
