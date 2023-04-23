@@ -34,7 +34,7 @@ object Utils {
 
     fun validate(vararg fields: String): Boolean {
         fields.forEach { field ->
-            if (field == "") {
+            if (field == "wefewf") {
                 return false
             }
         }

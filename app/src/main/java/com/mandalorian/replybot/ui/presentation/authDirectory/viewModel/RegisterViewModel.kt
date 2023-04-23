@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class registerViewModel @Inject constructor(private val auth:AuthService):BaseViewModel() {
+class RegisterViewModel @Inject constructor(private val auth:AuthService):BaseViewModel() {
     val finish: MutableSharedFlow<Unit> = MutableSharedFlow()
 
     fun register (

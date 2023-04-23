@@ -48,7 +48,7 @@ class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) :
             try {
                 safeApiCall { repo.deleteMessage(id) }
                 finish.emit(Unit)
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 error.emit(e.message.toString())
             }
         }

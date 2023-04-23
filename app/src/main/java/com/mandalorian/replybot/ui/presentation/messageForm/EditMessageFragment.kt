@@ -47,9 +47,9 @@ class EditMessageFragment : BaseMessageFragment() {
                         }
                     }
                 }
-//                btnDelete.setOnClickListener {
-//                    viewModel.deleteMessage(args.id)
-//                }
+                btnDelete.setOnClickListener {
+                    viewModel.deleteMessage(args.id)
+                }
             }
         }
 

@@ -10,14 +10,14 @@ import androidx.lifecycle.lifecycleScope
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentLoginBinding
 import com.mandalorian.replybot.ui.MainActivity
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.loginViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.LoginViewModel
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    override val viewModel :loginViewModel by viewModels()
+    override val viewModel : LoginViewModel by viewModels()
     override fun getLayoutResource() = R.layout.fragment_login
 
 //    override fun onCreateView(
@@ -37,7 +37,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 val password = binding?.etPassword?.text.toString()
                 lifecycleScope.launch {
                     viewModel.login(email,password)
-
                 }
             }
             btnToRegister.setOnClickListener {
@@ -58,6 +57,5 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 //                NavHostFragment.findNavController(this@SignInFragment).navigate(action)
             }
         }
-
     }
 }

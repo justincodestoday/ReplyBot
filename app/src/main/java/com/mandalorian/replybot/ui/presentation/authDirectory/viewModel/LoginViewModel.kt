@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class loginViewModel @Inject constructor(private val auth: AuthService):BaseViewModel() {
+class LoginViewModel @Inject constructor(private val auth: AuthService):BaseViewModel() {
     val loginFinish: MutableSharedFlow<Unit> = MutableSharedFlow()
     val email: MutableStateFlow<String> = MutableStateFlow("")
     val pass: MutableStateFlow<String> = MutableStateFlow("")

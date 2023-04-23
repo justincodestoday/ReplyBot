@@ -2,7 +2,7 @@ package com.mandalorian.replybot.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.service.AuthService
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.loginViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.LoginViewModel
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,14 +25,14 @@ class LoginViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var loginViewModel: loginViewModel
+    private lateinit var loginViewModel: LoginViewModel
     private val authRepo = Mockito.mock(AuthService::class.java)
 //    private lateinit var useCase: GetUsersUseCase
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        loginViewModel = loginViewModel(authRepo)
+        loginViewModel = LoginViewModel(authRepo)
     }
 
     @Test
@@ -40,17 +40,16 @@ class LoginViewModelTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
         loginViewModel.email.value = "abc@abc.com"
         loginViewModel.pass.value = "qweqweqwe"
-        loginViewModel.login()
+        loginViewModel.login(loginViewModel.email.value, loginViewModel.pass.value)
         assertEquals(loginViewModel.loginFinish.first(), Unit)
     }
 
     @Test
     fun `user should not be able with the wrong credential`() = runTest {
-        Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqw")).thenReturn(false)
+        Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
         loginViewModel.email.value = "abc@abc.com"
         loginViewModel.pass.value = "qweqweqw"
-        loginViewModel.login()
-
+        loginViewModel.login(loginViewModel.email.value, loginViewModel.pass.value)
         assertEquals(loginViewModel.error.first(), "Login failed")
     }
 
