@@ -1,4 +1,4 @@
-package com.mandalorian.replybot.ui.presentation.home.viewModel
+package com.mandalorian.replybot.ui.presentation.home.activatedMessages.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
