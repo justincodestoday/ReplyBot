@@ -12,13 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.presentation.home.ActivatedMessagesFragment">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="activated"
-            tools:ignore="MissingConstraints" />
+        tools:context=".ui.presentation.home.activatedMessages.ActivatedMessagesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMessages"

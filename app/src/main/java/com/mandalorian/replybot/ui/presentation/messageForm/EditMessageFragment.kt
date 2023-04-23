@@ -14,13 +14,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class EditMessageFragment : BaseMessageFragment() {
     override val viewModel: UpdateMessageViewModel by viewModels()
+    override fun getLayoutResource(): Int = R.layout.fragment_create_message
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-    }
-
-    override fun onBindData(view: View) {
-        super.onBindData(view)
 
         val args: EditMessageFragmentArgs by navArgs()
         viewModel.getMessageById(args.id)
@@ -52,6 +49,10 @@ class EditMessageFragment : BaseMessageFragment() {
                 }
             }
         }
+    }
+
+    override fun onBindData(view: View) {
+        super.onBindData(view)
 
         lifecycleScope.launch {
             viewModel.finish.collect {

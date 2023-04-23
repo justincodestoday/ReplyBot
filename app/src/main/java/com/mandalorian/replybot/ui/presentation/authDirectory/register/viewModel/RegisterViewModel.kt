@@ -1,4 +1,4 @@
-package com.mandalorian.replybot.ui.presentation.authDirectory.viewModel
+package com.mandalorian.replybot.ui.presentation.authDirectory.register.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.User

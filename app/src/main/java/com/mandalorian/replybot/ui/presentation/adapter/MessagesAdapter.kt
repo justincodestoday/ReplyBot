@@ -2,7 +2,9 @@ package com.mandalorian.replybot.ui.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.ItemLayoutMessageBinding
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.utils.Utils.update
@@ -32,6 +34,10 @@ class MessagesAdapter(
             tvTitle.text = message.title
             tvReceive.text = message.receipt
             tvReply.text = message.replyMsg
+
+            if (!message.isActivated) {
+                status.setColorFilter(ContextCompat.getColor(root.context, R.color.yellow_700))
+            }
 
             cvMessage.setOnClickListener {
                 onClick(message)

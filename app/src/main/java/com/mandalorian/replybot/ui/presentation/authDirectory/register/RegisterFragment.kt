@@ -11,7 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentRegisterBinding
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.RegisterViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.register.RegisterFragmentDirections
+import com.mandalorian.replybot.ui.presentation.authDirectory.register.viewModel.RegisterViewModel
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

@@ -2,7 +2,7 @@ package com.mandalorian.replybot.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.service.AuthService
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.LoginViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel.LoginViewModel
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,8 +39,8 @@ class LoginViewModelTest {
     fun test() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
         loginViewModel.email.value = "abc@abc.com"
-        loginViewModel.pass.value = "qweqweqwe"
-        loginViewModel.login(loginViewModel.email.value, loginViewModel.pass.value)
+        loginViewModel.password.value = "qweqweqwe"
+        loginViewModel.login()
         assertEquals(loginViewModel.loginFinish.first(), Unit)
     }
 
@@ -48,8 +48,8 @@ class LoginViewModelTest {
     fun `user should not be able with the wrong credential`() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
         loginViewModel.email.value = "abc@abc.com"
-        loginViewModel.pass.value = "qweqweqw"
-        loginViewModel.login(loginViewModel.email.value, loginViewModel.pass.value)
+        loginViewModel.password.value = "qweqweqw"
+        loginViewModel.login()
         assertEquals(loginViewModel.error.first(), "Login failed")
     }
 

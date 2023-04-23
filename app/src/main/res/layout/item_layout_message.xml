@@ -113,7 +113,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_circle"
-                        app:tint="#12D30B"/>
+                        app:tint="@color/green_200"/>
 
                 </LinearLayout>
 

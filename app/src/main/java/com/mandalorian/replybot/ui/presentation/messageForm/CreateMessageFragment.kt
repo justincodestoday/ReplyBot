@@ -2,18 +2,11 @@ package com.mandalorian.replybot.ui.presentation.messageForm
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.replybot.R
-import com.mandalorian.replybot.databinding.MessageFormBinding
-import com.mandalorian.replybot.ui.presentation.base.BaseFragment
-import com.mandalorian.replybot.ui.presentation.home.ActivatedMessagesFragment
-import com.mandalorian.replybot.ui.presentation.home.DeactivatedMessagesFragment
 import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.CreateMessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -21,14 +14,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CreateMessageFragment : BaseMessageFragment() {
     override val viewModel: CreateMessageViewModel by viewModels()
-//    override fun getLayoutResource(): Int = R.layout.message_form
+    override fun getLayoutResource(): Int = R.layout.fragment_create_message
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher.addCallback {
-            navController.popBackStack()
-        }
 
         binding?.run {
             button.setOnClickListener {
