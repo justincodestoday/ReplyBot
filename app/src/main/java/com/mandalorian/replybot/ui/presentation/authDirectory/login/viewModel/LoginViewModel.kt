@@ -1,4 +1,4 @@
-package com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel
+package com.mandalorian.replybot.ui.presentation.authDirectory.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.service.AuthService
@@ -10,10 +10,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val auth: AuthService):BaseViewModel() {
+class loginViewModel @Inject constructor(private val auth: AuthService):BaseViewModel() {
     val loginFinish: MutableSharedFlow<Unit> = MutableSharedFlow()
     val email: MutableStateFlow<String> = MutableStateFlow("")
-    val pass: MutableStateFlow<String> = MutableStateFlow("")
+    val password: MutableStateFlow<String> = MutableStateFlow("")
     fun login(email: String, pass: String) {
         viewModelScope.launch {
             val res = safeApiCall { auth.login(email, pass) }
