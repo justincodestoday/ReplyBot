@@ -3,11 +3,7 @@ package com.mandalorian.replybot.viewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel.LoginViewModel
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import junit.framework.TestCase.assertEquals
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -15,7 +11,12 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mockito
+
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginViewModelTest {
@@ -26,6 +27,7 @@ class LoginViewModelTest {
 
     private lateinit var loginViewModel: LoginViewModel
     private val authRepo = Mockito.mock(AuthService::class.java)
+//    private lateinit var useCase: GetUsersUseCase
 
     @Before
     fun setup() {
@@ -34,7 +36,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `user should be able to login with correct credentials`() = runTest {
+    fun test() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
         loginViewModel.email.value = "abc@abc.com"
         loginViewModel.password.value = "qweqweqwe"
@@ -43,12 +45,12 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `user should not be able to login with wrong credentials`() = runTest {
+    fun `user should not be able with the wrong credential`() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
         loginViewModel.email.value = "abc@abc.com"
-        loginViewModel.password.value = "qweqweqww"
+        loginViewModel.password.value = "qweqweqw"
         loginViewModel.login()
-        assertEquals(loginViewModel.error.first(),"Login failed")
+        assertEquals(loginViewModel.error.first(), "Login failed")
     }
 
     @After
