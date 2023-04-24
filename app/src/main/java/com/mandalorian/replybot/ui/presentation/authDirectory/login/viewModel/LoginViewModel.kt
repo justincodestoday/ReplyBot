@@ -14,9 +14,9 @@ class LoginViewModel @Inject constructor(private val auth: AuthService): BaseVie
     val loginFinish: MutableSharedFlow<Unit> = MutableSharedFlow()
     val email: MutableStateFlow<String> = MutableStateFlow("")
     val password: MutableStateFlow<String> = MutableStateFlow("")
-    fun login(email: String, pass: String) {
+    fun login() {
         viewModelScope.launch {
-            val res = safeApiCall { auth.login(email, pass) }
+            val res = safeApiCall { auth.login(email.value, password.value) }
             if (res != null) {
                 loginFinish.emit(Unit)
             } else {
