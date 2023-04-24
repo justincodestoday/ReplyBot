@@ -28,7 +28,7 @@ abstract class BaseMessageFragment : BaseFragment<FragmentCreateMessageBinding>(
 
             if(!validationStatus) {
                 lifecycleScope.launch {
-                    viewModel?.error?.emit("Im Done")
+                    viewModel.error.emit("Im Done")
                 }
                 return null
             }
