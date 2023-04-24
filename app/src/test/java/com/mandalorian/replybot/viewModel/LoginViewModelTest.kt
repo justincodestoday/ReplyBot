@@ -3,7 +3,7 @@ package com.example.firebasechatapp.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.service.AuthService
-import com.mandalorian.replybot.ui.presentation.authDirectory.viewModel.loginViewModel
+import com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel.LoginViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
@@ -30,32 +30,32 @@ class LoginViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var loginViewModel: loginViewModel
+    private lateinit var loginViewModel: LoginViewModel
     private val authRepo = Mockito.mock(AuthService::class.java)
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-//        loginViewModel = LoginViewModel(useCase)
+        loginViewModel = LoginViewModel(authRepo)
     }
 
     @Test
     fun `user should be able to login with correct credentials`() = runTest {
-        Mockito.`when`(authRepo.login("abc@abc.com", "qwerty")).thenReturn(true)
+        Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
         loginViewModel.email.value = "abc@abc.com"
         loginViewModel.password.value = "qweqweqwe"
-//        loginViewModel.login()
+        loginViewModel.login(loginViewModel.email.value,loginViewModel.password.value)
         assertEquals(loginViewModel.loginFinish.first(), Unit)
     }
 
     @Test
     fun `user should not be able to login with wrong credentials`() = runTest {
-        Mockito.`when`(authRepo.login("abc@abc.com", "qwerty")).thenReturn(false)
+        Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
         loginViewModel.email.value = "abc@abc.com"
-        loginViewModel.password.value = "qweqweqwe"
-//        loginViewModel.login()
+        loginViewModel.password.value = "qweqweqww"
+        loginViewModel.login(loginViewModel.email.value,loginViewModel.password.value)
 
-        assertEquals(loginViewModel.error.first(),Any())
+        assertEquals(loginViewModel.error.first(),"Login failed")
     }
 
     @After
