@@ -18,7 +18,6 @@ class CreateMessageFragment : BaseMessageFragment() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-
         binding?.run {
             button.setOnClickListener {
                 val message = getMessage()
