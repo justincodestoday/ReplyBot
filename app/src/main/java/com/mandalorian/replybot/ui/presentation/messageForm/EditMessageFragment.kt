@@ -44,8 +44,16 @@ class EditMessageFragment : BaseMessageFragment() {
                         }
                     }
                 }
-                btnDelete.setOnClickListener {
-                    viewModel.deleteMessage(args.id)
+//                btnDelete.setOnClickListener {
+//                    viewModel.deleteMessage(args.id)
+//                }
+
+                if(it.isActivated){
+                    tvToggle.text = "Activated"
+                    tvToggle.setTextColor(R.color.teal_200)
+                }else{
+                    tvToggle.text = "Deactivated"
+                    tvToggle.setTextColor(R.color.red_500)
                 }
             }
         }

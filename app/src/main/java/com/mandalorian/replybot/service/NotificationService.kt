@@ -14,6 +14,8 @@ import com.mandalorian.replybot.repository.FireStoreMessageRepository
 import com.mandalorian.replybot.utils.Constants
 import com.mandalorian.replybot.utils.NotificationUtils
 import kotlinx.coroutines.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 class NotificationService : NotificationListenerService() {
@@ -80,9 +82,23 @@ class NotificationService : NotificationListenerService() {
         Log.d(Constants.DEBUG, messages.toString())
 
         for (i in messages) {
-            if (msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
-                replyText = i.replyMsg
-                cancelNotification(sbn?.key)
+//            if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+//                replyText = i.replyMsg
+//                cancelNotification(sbn?.key)
+//            }
+
+//            if () {
+//                replyText = i.replyMsg
+//                cancelNotification(sbn?.key)
+//            }
+
+            val pattern: Pattern = Pattern.compile(i.receipt, Pattern.CASE_INSENSITIVE)
+            val matcher: Matcher = pattern.matcher(msgReceived)
+            val matchFound: Boolean = matcher.find()
+            if (matchFound) {
+                println("Match found")
+            } else {
+                println("Match not found")
             }
 
             val notifName = wNotification.name
