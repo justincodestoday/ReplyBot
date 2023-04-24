@@ -1,9 +1,7 @@
 package com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel
 
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.mandalorian.replybot.service.AuthService
-import com.mandalorian.replybot.ui.presentation.authDirectory.login.LoginFragmentDirections
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,26 +10,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val auth: AuthService) : BaseViewModel() {
+class LoginViewModel @Inject constructor(private val auth: AuthService): BaseViewModel() {
     val loginFinish: MutableSharedFlow<Unit> = MutableSharedFlow()
-    val toRegister: MutableSharedFlow<Unit> = MutableSharedFlow()
     val email: MutableStateFlow<String> = MutableStateFlow("")
     val password: MutableStateFlow<String> = MutableStateFlow("")
-
-    fun login() {
+    fun login(email: String, pass: String) {
         viewModelScope.launch {
-            val res = safeApiCall { auth.login(email.value, password.value) }
+            val res = safeApiCall { auth.login(email, pass) }
             if (res != null) {
                 loginFinish.emit(Unit)
             } else {
                 error.emit("Login failed")
             }
-        }
-    }
-
-    fun navigateToRegister() {
-        viewModelScope.launch {
-            toRegister.emit(Unit)
         }
     }
 }
