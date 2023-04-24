@@ -11,14 +11,14 @@ import com.mandalorian.replybot.databinding.FragmentActivatedMessagesBinding
 import com.mandalorian.replybot.ui.presentation.adapter.MessagesAdapter
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import com.mandalorian.replybot.ui.presentation.home.HomeFragmentDirections
-import com.mandalorian.replybot.ui.presentation.home.activatedMessages.viewModel.ActivatedMessageViewModel
+import com.mandalorian.replybot.ui.presentation.home.activatedMessages.viewModel.ActivatedMessagesViewModel
 import com.mandalorian.replybot.ui.presentation.home.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>() {
-    override val viewModel: ActivatedMessageViewModel by viewModels()
+    override val viewModel: ActivatedMessagesViewModel by viewModels()
     private val parentViewModel: HomeViewModel by viewModels(
         ownerProducer = {
             requireParentFragment()
@@ -52,7 +52,7 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
     private fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = MessagesAdapter(mutableListOf()) {
-            val action = HomeFragmentDirections.actionHomeFragmentToEditMessageFragment(it.id!!)
+            val action = HomeFragmentDirections.actionHomeFragmentToUpdateMessageFragment(it.id!!)
             NavHostFragment.findNavController(this).navigate(action)
         }
         binding?.rvMessages?.adapter = adapter

@@ -1,4 +1,4 @@
-package com.mandalorian.replybot.ui.presentation.home.activatedMessages.viewModel
+package com.mandalorian.replybot.ui.presentation.home.deactivatedMessages.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ActivatedMessageViewModel @Inject constructor(private val repo: MessageRepository) :
+class DeactivatedMessagesViewModel @Inject constructor(private val repo: MessageRepository) :
     BaseViewModel() {
     val messages: MutableLiveData<List<Message>> = MutableLiveData()
 
@@ -23,10 +23,8 @@ class ActivatedMessageViewModel @Inject constructor(private val repo: MessageRep
         viewModelScope.launch {
             val res = safeApiCall { repo.getAllMessages() }
             res?.let {
-                messages.value = it.filter { message -> message.isActivated }
+                messages.value = it.filter { message -> !message.isActivated }
             }
         }
     }
 }
-
-

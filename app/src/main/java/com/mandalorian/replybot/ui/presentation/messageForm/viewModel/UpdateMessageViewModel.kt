@@ -36,7 +36,7 @@ class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) :
                 safeApiCall { repo.updateMessage(id, message, isActivated) }
                 finish.emit(Unit)
             } else {
-                error.emit("Validation failed")
+                error.emit("Please provide the necessary information")
             }
         }
     }
