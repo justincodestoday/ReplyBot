@@ -77,12 +77,23 @@ class NotificationService : NotificationListenerService() {
     ) {
         msgReceived = wNotification.bundle?.getString("android.text") ?: "Empty"
         val messages = getMessages()
+        var messageFound = false
         Log.d(Constants.DEBUG, messages.toString())
-
         for (i in messages) {
             if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+                messageFound = true
                 replyText = i.replyMsg
                 cancelNotification(sbn?.key)
+            }
+//            if (msgReceived.lowercase().contains(i.receipt.lowercase()) && i.isActivated
+//            ) {
+//                messageFound = true
+//                replyText = i.replyMsg
+//                cancelNotification(sbn?.key)
+//            }
+else{
+                Log.d(Constants.DEBUG,"No message to return")
+                return
             }
 
             val notifName = wNotification.name
@@ -90,6 +101,8 @@ class NotificationService : NotificationListenerService() {
                 callback()
             }
         }
+//        if (!messageFound) return
+//        callback()
     }
 
     private fun wNotificationPendingIntent(
@@ -101,7 +114,7 @@ class NotificationService : NotificationListenerService() {
                 try {
                     Log.d(Constants.DEBUG, "what is the intent?")
                     isRunning = false
-//                    cancelNotification(sbn?.key)
+                    cancelNotification(sbn?.key)
 
                     it.send(this@NotificationService, 0, intent)
                     delay(1000)

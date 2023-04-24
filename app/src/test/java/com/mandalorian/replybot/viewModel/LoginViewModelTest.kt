@@ -1,5 +1,6 @@
 package com.mandalorian.replybot.viewModel
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel.LoginViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -10,6 +11,11 @@ import org.junit.Test
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginViewModelTest {
