@@ -24,9 +24,8 @@ class CreateMessageViewModel @Inject constructor(repo: MessageRepository) :
             if (validationStatus) {
                 safeApiCall { repo.addMessage(message) }
                 finish.emit(Unit)
-                Log.d("debugging", "Please la pt.2")
             } else {
-                error.emit("Im done")
+                error.emit("Please provide the necessary information")
             }
         }
     }

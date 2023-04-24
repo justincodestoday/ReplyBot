@@ -9,7 +9,7 @@ interface MessageRepository {
 
     suspend fun addMessage(message: Message)
 
-    suspend fun updateMessage(id: String, message: Message, isActivated: Boolean): Message
+    suspend fun updateMessage(id: String, message: Message, isActivated: Boolean)
 
     suspend fun deleteMessage(id: String)
 }
