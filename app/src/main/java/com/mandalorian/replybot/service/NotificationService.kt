@@ -80,7 +80,7 @@ class NotificationService : NotificationListenerService() {
         Log.d(Constants.DEBUG, messages.toString())
 
         for (i in messages) {
-            if (msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+            if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
                 replyText = i.replyMsg
                 cancelNotification(sbn?.key)
             }
