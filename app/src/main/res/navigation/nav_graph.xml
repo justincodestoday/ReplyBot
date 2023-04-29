@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/updateMessageFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.messageForm.UpdateMessageFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.messageForm.updateMessage.UpdateMessageFragment"
         android:label="UpdateMessageFragment"
         tools:layout="@layout/fragment_create_message">
         <argument
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/createMessageFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.messageForm.CreateMessageFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.messageForm.createMessage.CreateMessageFragment"
         android:label="CreateMessageFragment">
         <action
             android:id="@+id/action_createMessageFragment_to_homeFragment"

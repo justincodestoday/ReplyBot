@@ -1,15 +1,13 @@
 package com.mandalorian.replybot.viewModel
 
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.repository.MessageRepository
-import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.UpdateMessageViewModel
+import com.mandalorian.replybot.ui.presentation.messageForm.updateMessage.viewModel.UpdateMessageViewModel
 import com.mandalorian.replybot.utils.Utils
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
 import org.junit.After
@@ -17,7 +15,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.verify
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UpdateMessageViewModelTest {
@@ -25,13 +22,13 @@ class UpdateMessageViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var updateMessageViewModel: UpdateMessageViewModel
+    private lateinit var viewModel: UpdateMessageViewModel
     private val messageRepo = Mockito.mock(MessageRepository::class.java)
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        updateMessageViewModel = UpdateMessageViewModel(messageRepo)
+        viewModel = UpdateMessageViewModel(messageRepo)
     }
 
     @Test
@@ -47,21 +44,21 @@ class UpdateMessageViewModelTest {
                 false
             )
         ).thenReturn(Unit)
-        updateMessageViewModel.title.value = "New Title"
-        updateMessageViewModel.receipt.value = "New Receipt"
-        updateMessageViewModel.replyMsg.value = "New Reply"
+        viewModel.title.value = "New Title"
+        viewModel.receipt.value = "New Receipt"
+        viewModel.replyMsg.value = "New Reply"
         val message = Message(
-            title = updateMessageViewModel.title.value,
-            receipt = updateMessageViewModel.receipt.value,
-            replyMsg = updateMessageViewModel.replyMsg.value
+            title = viewModel.title.value,
+            receipt = viewModel.receipt.value,
+            replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
             Utils.validate(it.title, it.receipt, it.replyMsg)
         }
         if (validationStatus) {
-            updateMessageViewModel.updateMessage("1", message, false)
+            viewModel.updateMessage("1", message, false)
         }
-        assertEquals(updateMessageViewModel.finish.first(), Unit)
+        assertEquals(viewModel.finish.first(), Unit)
     }
 
     @Test
@@ -77,21 +74,21 @@ class UpdateMessageViewModelTest {
                 false
             )
         ).thenReturn(Unit)
-        updateMessageViewModel.title.value = ""
-        updateMessageViewModel.receipt.value = ""
-        updateMessageViewModel.replyMsg.value = ""
+        viewModel.title.value = ""
+        viewModel.receipt.value = ""
+        viewModel.replyMsg.value = ""
         val message = Message(
-            title = updateMessageViewModel.title.value,
-            receipt = updateMessageViewModel.receipt.value,
-            replyMsg = updateMessageViewModel.replyMsg.value
+            title = viewModel.title.value,
+            receipt = viewModel.receipt.value,
+            replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
             Utils.validate(it.title, it.receipt, it.replyMsg)
         }
         if (!validationStatus) {
-            updateMessageViewModel.updateMessage("1", message, false)
+            viewModel.updateMessage("1", message, false)
         }
-        assertEquals(updateMessageViewModel.error.first(), "Please provide the necessary information")
+        assertEquals(viewModel.error.first(), "Please provide the necessary information")
     }
 
     @After

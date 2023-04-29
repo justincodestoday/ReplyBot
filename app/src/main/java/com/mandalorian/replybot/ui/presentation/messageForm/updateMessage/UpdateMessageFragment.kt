@@ -1,4 +1,4 @@
-package com.mandalorian.replybot.ui.presentation.messageForm
+package com.mandalorian.replybot.ui.presentation.messageForm.updateMessage
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.mandalorian.replybot.R
-import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.UpdateMessageViewModel
+import com.mandalorian.replybot.ui.presentation.messageForm.baseMessage.BaseMessageFragment
+import com.mandalorian.replybot.ui.presentation.messageForm.updateMessage.viewModel.UpdateMessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

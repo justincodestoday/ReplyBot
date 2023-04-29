@@ -1,12 +1,11 @@
-package com.mandalorian.replybot.ui.presentation.messageForm.viewModel
+package com.mandalorian.replybot.ui.presentation.messageForm.createMessage.viewModel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.repository.MessageRepository
+import com.mandalorian.replybot.ui.presentation.messageForm.baseMessage.viewModel.BaseMessageViewModel
 import com.mandalorian.replybot.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

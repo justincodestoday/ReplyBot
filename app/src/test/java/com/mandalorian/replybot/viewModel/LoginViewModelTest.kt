@@ -3,7 +3,7 @@ package com.mandalorian.replybot.viewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel.LoginViewModel
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -24,31 +24,31 @@ class LoginViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var viewModel: LoginViewModel
     private val authRepo = Mockito.mock(AuthService::class.java)
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        loginViewModel = LoginViewModel(authRepo)
+        viewModel = LoginViewModel(authRepo)
     }
 
     @Test
     fun test() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
-        loginViewModel.email.value = "abc@abc.com"
-        loginViewModel.password.value = "qweqweqwe"
-        loginViewModel.login()
-        assertEquals(loginViewModel.loginFinish.first(), Unit)
+        viewModel.email.value = "abc@abc.com"
+        viewModel.password.value = "qweqweqwe"
+        viewModel.login()
+        assertEquals(viewModel.loginFinish.first(), Unit)
     }
 
     @Test
     fun `user should not be able with the wrong credential`() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
-        loginViewModel.email.value = "abc@abc.com"
-        loginViewModel.password.value = "qweqweqw"
-        loginViewModel.login()
-        assertEquals(loginViewModel.error.first(), "Login failed")
+        viewModel.email.value = "abc@abc.com"
+        viewModel.password.value = "qweqweqw"
+        viewModel.login()
+        assertEquals(viewModel.error.first(), "Login failed")
     }
 
     @After
