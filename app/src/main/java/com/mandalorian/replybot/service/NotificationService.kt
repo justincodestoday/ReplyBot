@@ -82,23 +82,12 @@ class NotificationService : NotificationListenerService() {
         Log.d(Constants.DEBUG, messages.toString())
 
         for (i in messages) {
-//            if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
-//                replyText = i.replyMsg
-//                cancelNotification(sbn?.key)
-//            }
-
-//            if () {
-//                replyText = i.replyMsg
-//                cancelNotification(sbn?.key)
-//            }
-
-            val pattern: Pattern = Pattern.compile(i.receipt, Pattern.CASE_INSENSITIVE)
-            val matcher: Matcher = pattern.matcher(msgReceived)
-            val matchFound: Boolean = matcher.find()
-            if (matchFound) {
-                println("Match found")
+            if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+                Log.d(Constants.DEBUG, "$i")
+                replyText = i.replyMsg
+                cancelNotification(sbn?.key)
             } else {
-                println("Match not found")
+                continue
             }
 
             val notifName = wNotification.name

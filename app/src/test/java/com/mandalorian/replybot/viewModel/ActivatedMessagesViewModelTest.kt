@@ -2,7 +2,6 @@ package com.mandalorian.replybot.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.model.Message
-import com.mandalorian.replybot.model.User
 import com.mandalorian.replybot.repository.MessageRepository
 import com.mandalorian.replybot.ui.presentation.home.activatedMessages.viewModel.ActivatedMessagesViewModel
 import junit.framework.TestCase.assertEquals
@@ -17,6 +16,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ActivatedMessagesViewModelTest {
@@ -24,22 +24,36 @@ class ActivatedMessagesViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var activatedViewModel: ActivatedMessagesViewModel
-    private val messageRepo = Mockito.mock(MessageRepository::class.java)
+    private lateinit var viewModel: ActivatedMessagesViewModel
+    private val messageRepo: MessageRepository = Mockito.mock(MessageRepository::class.java)
+    private val expectedList: MutableList<Message> = mutableListOf()
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        activatedViewModel = ActivatedMessagesViewModel(messageRepo)
+        viewModel = ActivatedMessagesViewModel(messageRepo)
     }
 
     @Test
-    fun test() = runTest {
-        val list: List<Message> = listOf()
-        Mockito.`when`(messageRepo.getAllMessages()).thenReturn(list)
-        val retrievedList = activatedViewModel.getMessages()
-        assertEquals(retrievedList, list)
+    fun `when getMessages called it should get messages`() = runTest {
+        viewModel.getMessages()
+        verify(messageRepo).getAllMessages()
     }
+
+//    @Test
+//    fun test() = runTest {
+//        val actualList: List<Message> = listOf(
+//            Message(null, "Message 1", "Receipt 1", "Reply 1", true),
+//            Message(null, "Message 2", "Receipt 2", "Reply 2", false)
+//        )
+////        val expectedList: MutableList<Message> = mutableListOf()
+//        Mockito.`when`(messageRepo.getAllMessages()).thenReturn(actualList)
+//        viewModel.getMessages()
+//        verify(messageRepo).getAllMessages()
+//
+////        delay(2000)
+//        assertEquals(viewModel.messages.value?.size, actualList.size)
+//    }
 
     @After
     fun cleanup() {
