@@ -1,11 +1,21 @@
 package com.mandalorian.replybot
 
+import com.mandalorian.replybot.utils.Utils.validate
 import com.mandalorian.replybot.utils.ValidationUtils.validateEmail
 import com.mandalorian.replybot.utils.ValidationUtils.validateUsername
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class ValidationUtilTest {
+    @Test
+    fun `should return false if any field is empty`() {
+        assertEquals(validate(""), false)
+    }
+
+    @Test
+    fun `should return true if none of the fields is empty`() {
+        assertEquals(validate("Peter"), true)
+    }
 
     @Test
     fun `empty email should not pass the validation`() {
@@ -18,18 +28,13 @@ class ValidationUtilTest {
     }
 
     @Test
-    fun `email should not contain any special character other than @ and full stop`() {
-        assertEquals(validateEmail("ab.com"), false)
-    }
-
-    @Test
-    fun `should return false if email start with special character`() {
+    fun `should return false if email starts with special character`() {
         assertEquals(validateEmail(".abc@abc@gmail.com"), false)
     }
 
     @Test
-    fun `user name should contain only alphanumeric characters`() {
-        assertEquals(validateEmail("khayrul123"), false)
+    fun `email should not contain any special character other than @ and dot`() {
+        assertEquals(validateEmail("abc#$%aa@abc.com"), false)
     }
 
     @Test
@@ -38,7 +43,27 @@ class ValidationUtilTest {
     }
 
     @Test
+    fun `if user name contains special characters, it should fail the test`() {
+        assertEquals(validateUsername("p3t3rp@rk3r123"), false)
+    }
+
+    @Test
     fun `if user name contains only alphanumeric characters, it should pass the test`() {
-        assertEquals(validateUsername("xiangze123"), true)
+        assertEquals(validateUsername("peterparker123"), true)
+    }
+
+    @Test
+    fun `if password is less than 8 characters, it will fail the test`() {
+        assertEquals(validateUsername("abcde"), false)
+    }
+
+    @Test
+    fun `if password contains special characters, it should pass the test`() {
+        assertEquals(validateUsername("abcde123!"), false)
+    }
+
+    @Test
+    fun `valid password should pass the test`() {
+        assertEquals(validateUsername("abcde123"), true)
     }
 }

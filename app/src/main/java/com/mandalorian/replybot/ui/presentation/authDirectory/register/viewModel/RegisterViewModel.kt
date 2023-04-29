@@ -36,6 +36,7 @@ class RegisterViewModel @Inject constructor(private val auth: AuthService) : Bas
                         )
                     )
                 }
+                success.emit("Register successful")
                 finish.emit(Unit)
             }
         } else if (!ValidationUtils.validateUsername(username)) {
