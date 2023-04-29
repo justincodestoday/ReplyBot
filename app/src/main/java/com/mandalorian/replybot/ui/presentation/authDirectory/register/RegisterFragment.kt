@@ -1,4 +1,4 @@
-package com.mandalorian.replybot.ui.presentation.authDirectory
+package com.mandalorian.replybot.ui.presentation.authDirectory.register
 
 import android.os.Bundle
 import android.util.Log
