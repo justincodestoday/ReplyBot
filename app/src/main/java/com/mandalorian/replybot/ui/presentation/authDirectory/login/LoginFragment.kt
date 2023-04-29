@@ -30,12 +30,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-        binding?.viewModel = viewModel
 
-        binding?.run {
-            btnToRegister.setOnClickListener {
-                navigateToRegister()
-            }
+        binding?.btnToRegister?.setOnClickListener {
+            navigateToRegister()
         }
     }
 
