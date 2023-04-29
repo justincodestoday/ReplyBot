@@ -17,7 +17,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginViewModelTest {
 
@@ -27,7 +26,6 @@ class LoginViewModelTest {
 
     private lateinit var loginViewModel: LoginViewModel
     private val authRepo = Mockito.mock(AuthService::class.java)
-//    private lateinit var useCase: GetUsersUseCase
 
     @Before
     fun setup() {

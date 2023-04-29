@@ -18,6 +18,7 @@ class LoginViewModel @Inject constructor(private val auth: AuthService): BaseVie
         viewModelScope.launch {
             val res = safeApiCall { auth.login(email.value, password.value) }
             if (res != null) {
+                success.emit("Login successful")
                 loginFinish.emit(Unit)
             } else {
                 error.emit("Login failed")

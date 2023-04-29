@@ -31,6 +31,7 @@ class RegisterViewModel @Inject constructor(private val auth:AuthService):BaseVi
                         )
                     )
                 }
+                success.emit("Register successful")
                 finish.emit(Unit)
             }
         } else {

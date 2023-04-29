@@ -40,6 +40,12 @@ class ActivatedMessagesFragment : BaseFragment<FragmentActivatedMessagesBinding>
 
         viewModel.messages.observe(viewLifecycleOwner) {
             adapter.setMessage(it)
+
+            if (it.isNullOrEmpty()) {
+                binding?.tvEmpty?.visibility = View.VISIBLE
+            } else {
+                binding?.tvEmpty?.visibility = View.GONE
+            }
         }
 
         lifecycleScope.launch {
