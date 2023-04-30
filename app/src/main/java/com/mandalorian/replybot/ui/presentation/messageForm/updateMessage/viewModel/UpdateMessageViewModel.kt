@@ -30,7 +30,7 @@ class UpdateMessageViewModel @Inject constructor(repo: MessageRepository) :
         isActivated: Boolean
     ) {
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         viewModelScope.launch {
             if (validationStatus) {

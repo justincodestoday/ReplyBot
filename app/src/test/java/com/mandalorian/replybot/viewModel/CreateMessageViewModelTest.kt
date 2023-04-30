@@ -40,7 +40,7 @@ class CreateMessageViewModelTest {
             messageRepo.addMessage(
                 Message(
                     title = "Title",
-                    receipt = "Receipt",
+                    incomingMsg = "Receipt",
                     replyMsg = "Reply"
                 )
             )
@@ -50,11 +50,11 @@ class CreateMessageViewModelTest {
         viewModel.replyMsg.value = "Reply"
         val message = Message(
             title = viewModel.title.value,
-            receipt = viewModel.receipt.value,
+            incomingMsg = viewModel.receipt.value,
             replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         if (validationStatus) {
             viewModel.addMessage(message)
@@ -68,7 +68,7 @@ class CreateMessageViewModelTest {
             messageRepo.addMessage(
                 Message(
                     title = "Title",
-                    receipt = "Receipt",
+                    incomingMsg = "Receipt",
                     replyMsg = "Reply"
                 )
             )
@@ -78,11 +78,11 @@ class CreateMessageViewModelTest {
         viewModel.replyMsg.value = ""
         val message = Message(
             title = viewModel.title.value,
-            receipt = viewModel.receipt.value,
+            incomingMsg = viewModel.receipt.value,
             replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         if (!validationStatus) {
             viewModel.addMessage(message)

@@ -39,7 +39,7 @@ class LoginViewModelTest {
         viewModel.email.value = "abc@abc.com"
         viewModel.password.value = "qweqweqwe"
         viewModel.login()
-        assertEquals(viewModel.loginFinish.first(), Unit)
+        assertEquals(viewModel.finish.first(), Unit)
     }
 
     @Test

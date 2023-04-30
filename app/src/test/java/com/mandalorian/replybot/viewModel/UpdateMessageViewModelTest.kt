@@ -38,7 +38,7 @@ class UpdateMessageViewModelTest {
                 "1",
                 Message(
                     title = "New Title",
-                    receipt = "New Receipt",
+                    incomingMsg = "New Receipt",
                     replyMsg = "New Reply"
                 ),
                 false
@@ -49,11 +49,11 @@ class UpdateMessageViewModelTest {
         viewModel.replyMsg.value = "New Reply"
         val message = Message(
             title = viewModel.title.value,
-            receipt = viewModel.receipt.value,
+            incomingMsg = viewModel.receipt.value,
             replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         if (validationStatus) {
             viewModel.updateMessage("1", message, false)
@@ -68,7 +68,7 @@ class UpdateMessageViewModelTest {
                 "1",
                 Message(
                     title = "New Title",
-                    receipt = "New Receipt",
+                    incomingMsg = "New Receipt",
                     replyMsg = "New Reply"
                 ),
                 false
@@ -79,11 +79,11 @@ class UpdateMessageViewModelTest {
         viewModel.replyMsg.value = ""
         val message = Message(
             title = viewModel.title.value,
-            receipt = viewModel.receipt.value,
+            incomingMsg = viewModel.receipt.value,
             replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         if (!validationStatus) {
             viewModel.updateMessage("1", message, false)

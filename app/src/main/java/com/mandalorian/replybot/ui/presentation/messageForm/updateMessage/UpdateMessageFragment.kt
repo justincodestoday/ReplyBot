@@ -27,7 +27,7 @@ class UpdateMessageFragment : BaseMessageFragment() {
             var status = it.isActivated
             binding?.apply {
                 etTitle.setText(it.title)
-                etSendMessage.setText(it.receipt)
+                etSendMessage.setText(it.incomingMsg)
                 etReplyMessage.setText(it.replyMsg)
                 switchToggle.isChecked = status
                 tvName.text = "Update Message"
