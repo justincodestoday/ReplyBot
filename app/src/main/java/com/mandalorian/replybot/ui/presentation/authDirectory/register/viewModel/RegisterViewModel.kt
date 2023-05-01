@@ -1,12 +1,10 @@
 package com.mandalorian.replybot.ui.presentation.authDirectory.register.viewModel
 
-import android.util.Patterns
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.User
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
-import com.mandalorian.replybot.utils.Utils
 import com.mandalorian.replybot.utils.ValidationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,14 +58,16 @@ class RegisterViewModel @Inject constructor(private val auth: AuthService) : Bas
     fun register() {
         viewModelScope.launch {
             if (isFormValid()) {
-                safeApiCall { auth.createUser(User(username.value, email.value, password.value)) }
+                safeApiCall { auth.register(User(username.value, email.value, password.value)) }
                 success.emit("Register successful")
                 finish.emit(Unit)
+            } else {
+                error.emit("Please provide the proper information")
             }
         }
     }
 
-    private suspend fun isFormValid(): Boolean {
+    fun isFormValid(): Boolean {
         formErrors.clear()
         if (!ValidationUtils.validateUsername(username.value)) {
             formErrors.add("Invalid username")
@@ -77,8 +77,6 @@ class RegisterViewModel @Inject constructor(private val auth: AuthService) : Bas
             formErrors.add("Invalid password")
         } else if (confirmPassword.value != password.value) {
             formErrors.add("Passwords do not match")
-        } else {
-            error.emit("Please provide all the information")
         }
         return formErrors.isEmpty()
     }

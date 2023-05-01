@@ -34,7 +34,21 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun test() = runTest {
+    fun `user should not be able to attempt logging in without first filling in the credentials`() = runTest {
+        viewModel.email.value = ""
+        viewModel.password.value = ""
+        assertEquals(viewModel.isFormValid(), false)
+    }
+
+    @Test
+    fun `user should be able to attempt at logging in after filling in the credentials`() = runTest {
+        viewModel.email.value = "abc@abc.com"
+        viewModel.password.value = "qweqweqwe"
+        assertEquals(viewModel.isFormValid(), true)
+    }
+
+    @Test
+    fun `user should be able to login with the proper credentials`() = runTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
         viewModel.email.value = "abc@abc.com"
         viewModel.password.value = "qweqweqwe"
@@ -48,7 +62,7 @@ class LoginViewModelTest {
         viewModel.email.value = "abc@abc.com"
         viewModel.password.value = "qweqweqw"
         viewModel.login()
-        assertEquals(viewModel.error.first(), "Login failed")
+        assertEquals(viewModel.error.first(), "Wrong credentials")
     }
 
     @After

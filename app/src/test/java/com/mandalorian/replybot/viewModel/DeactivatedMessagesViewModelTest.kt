@@ -47,7 +47,7 @@ class DeactivatedMessagesViewModelTest {
     }
 
     @Test
-    fun `failed to fetch only the deactivated messages`() = runTest {
+    fun `only fetches the deactivated messages`() = runTest {
         val actualList: List<Message> = listOf(
             Message(null, "Message 1", "Receipt 1", "Reply 1", false),
             Message(null, "Message 2", "Receipt 2", "Reply 2", true)

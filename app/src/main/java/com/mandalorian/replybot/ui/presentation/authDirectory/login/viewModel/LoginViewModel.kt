@@ -32,7 +32,7 @@ class LoginViewModel @Inject constructor(private val auth: AuthService) : BaseVi
         }
     }
 
-    private fun isFormValid(): Boolean {
+    fun isFormValid(): Boolean {
         formErrors.clear()
         if (!ValidationUtils.validateEmail(email.value)) {
             formErrors.add("Invalid email")
