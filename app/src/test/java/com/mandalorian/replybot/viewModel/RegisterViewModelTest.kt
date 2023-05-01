@@ -1,9 +1,10 @@
 package com.mandalorian.replybot.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.mandalorian.replybot.model.User
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.authDirectory.register.viewModel.RegisterViewModel
-import junit.framework.Assert
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -23,32 +24,54 @@ class RegisterViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var viewModel: RegisterViewModel
     private val authRepo = Mockito.mock(AuthService::class.java)
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        registerViewModel = RegisterViewModel(authRepo)
+        viewModel = RegisterViewModel(authRepo)
     }
 
-//    @Test
-//    fun test() = runTest {
-//        Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
-//        registerViewModel.email.value = "abc@abc.com"
-//        registerViewModel.password.value = "qweqweqwe"
-//        registerViewModel.login()
-//        Assert.assertEquals(registerViewModel.loginFinish.first(), Unit)
-//    }
-//
-//    @Test
-//    fun `user should not be able with the wrong credential`() = runTest {
-//        Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
-//        registerViewModel.email.value = "abc@abc.com"
-//        registerViewModel.password.value = "qweqweqw"
-//        registerViewModel.login()
-//        Assert.assertEquals(registerViewModel.error.first(), "Login failed")
-//    }
+    @Test
+    fun `user should not be able to attempt registering without providing valid information`() = runTest {
+        viewModel.username.value = ""
+        viewModel.email.value = ""
+        viewModel.password.value = ""
+        viewModel.confirmPassword.value = ""
+        assertEquals(viewModel.isFormValid(), false)
+    }
+
+    @Test
+    fun `user should be able to attempt at registering a new account after providing valid information`() = runTest {
+        viewModel.username.value = "alphabetman"
+        viewModel.email.value = "abc@abc.com"
+        viewModel.password.value = "qweqweqwe"
+        viewModel.confirmPassword.value = "qweqweqwe"
+        assertEquals(viewModel.isFormValid(), true)
+    }
+
+    @Test
+    fun `user should be able to register a new account after passing validation`() = runTest {
+        Mockito.`when`(authRepo.register(User("alphabetman","abc@abc.com", "qweqweqwe"))).thenReturn(Unit)
+        viewModel.username.value = "alphabetman"
+        viewModel.email.value = "abc@abc.com"
+        viewModel.password.value = "qweqweqwe"
+        viewModel.confirmPassword.value = "qweqweqwe"
+        viewModel.register()
+        assertEquals(viewModel.finish.first(), Unit)
+    }
+
+    @Test
+    fun `user should not be able to register a new account without first passing validation`() = runTest {
+        Mockito.`when`(authRepo.register(User("alphabetman","abc@abc.com", "qweqweqwe"))).thenReturn(Unit)
+        viewModel.username.value = "alp"
+        viewModel.email.value = ".abc@abc.com"
+        viewModel.password.value = "qweqweqwe"
+        viewModel.confirmPassword.value = "qweqwe"
+        viewModel.register()
+        assertEquals(viewModel.error.first(), "Please provide the proper information")
+    }
 
     @After
     fun cleanup() {

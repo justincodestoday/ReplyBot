@@ -3,9 +3,9 @@ package com.mandalorian.replybot.viewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.repository.MessageRepository
-import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.CreateMessageViewModel
+import com.mandalorian.replybot.ui.presentation.messageForm.createMessage.viewModel.CreateMessageViewModel
 import com.mandalorian.replybot.utils.Utils
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -25,13 +25,13 @@ class CreateMessageViewModelTest {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var createMessageViewModel: CreateMessageViewModel
+    private lateinit var viewModel: CreateMessageViewModel
     private val messageRepo = Mockito.mock(MessageRepository::class.java)
 
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        createMessageViewModel = CreateMessageViewModel(messageRepo)
+        viewModel = CreateMessageViewModel(messageRepo)
     }
 
     @Test
@@ -40,26 +40,26 @@ class CreateMessageViewModelTest {
             messageRepo.addMessage(
                 Message(
                     title = "Title",
-                    receipt = "Receipt",
+                    incomingMsg = "Receipt",
                     replyMsg = "Reply"
                 )
             )
         ).thenReturn(Unit)
-        createMessageViewModel.title.value = "Title"
-        createMessageViewModel.receipt.value = "Receipt"
-        createMessageViewModel.replyMsg.value = "Reply"
+        viewModel.title.value = "Title"
+        viewModel.receipt.value = "Receipt"
+        viewModel.replyMsg.value = "Reply"
         val message = Message(
-            title = createMessageViewModel.title.value,
-            receipt = createMessageViewModel.receipt.value,
-            replyMsg = createMessageViewModel.replyMsg.value
+            title = viewModel.title.value,
+            incomingMsg = viewModel.receipt.value,
+            replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         if (validationStatus) {
-            createMessageViewModel.addMessage(message)
+            viewModel.addMessage(message)
         }
-        assertEquals(createMessageViewModel.finish.first(), Unit)
+        assertEquals(viewModel.finish.first(), Unit)
     }
 
     @Test
@@ -68,45 +68,27 @@ class CreateMessageViewModelTest {
             messageRepo.addMessage(
                 Message(
                     title = "Title",
-                    receipt = "Receipt",
+                    incomingMsg = "Receipt",
                     replyMsg = "Reply"
                 )
             )
         ).thenReturn(Unit)
-        createMessageViewModel.title.value = ""
-        createMessageViewModel.receipt.value = ""
-        createMessageViewModel.replyMsg.value = ""
+        viewModel.title.value = ""
+        viewModel.receipt.value = ""
+        viewModel.replyMsg.value = ""
         val message = Message(
-            title = createMessageViewModel.title.value,
-            receipt = createMessageViewModel.receipt.value,
-            replyMsg = createMessageViewModel.replyMsg.value
+            title = viewModel.title.value,
+            incomingMsg = viewModel.receipt.value,
+            replyMsg = viewModel.replyMsg.value
         )
         val validationStatus = message.let {
-            Utils.validate(it.title, it.receipt, it.replyMsg)
+            Utils.validate(it.title, it.incomingMsg, it.replyMsg)
         }
         if (!validationStatus) {
-            createMessageViewModel.addMessage(message)
+            viewModel.addMessage(message)
         }
-        assertEquals(createMessageViewModel.error.first(), "Please provide the necessary information")
+        assertEquals(viewModel.error.first(), "Please provide the necessary information")
     }
-
-//    @Test
-//    fun `message should not be able to add if it's empty`() = runTest {
-//        val nonEmptyMessage = Message(null,"title", "receipt", "replyMsg")
-//
-//        // Stub the addMessage method to return a specific result
-//        Mockito.`when`(messageRepo.addMessage(nonEmptyMessage)).thenReturn(Unit)
-//
-//        // Call the addMessage method with an empty message
-//        val emptyMessage = Message(null,"", "", "")
-//        createMessageViewModel.addMessage(emptyMessage)
-//
-//        // Verify that the addMessage method was not called with the empty message
-//        Mockito.verify(messageRepo, Mockito.never()).addMessage(emptyMessage)
-//
-//        // Verify that the empty message is still the same after the addMessage method is called
-//        assertEquals(emptyMessage, Message(null,"", "", ""))
-//    }
 
     @After
     fun cleanup() {

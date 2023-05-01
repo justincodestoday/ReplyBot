@@ -1,15 +1,12 @@
-package com.mandalorian.replybot.ui.presentation.messageForm
+package com.mandalorian.replybot.ui.presentation.messageForm.baseMessage
 
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.replybot.R
 import com.mandalorian.replybot.databinding.FragmentCreateMessageBinding
-import com.mandalorian.replybot.databinding.MessageFormBinding
 import com.mandalorian.replybot.model.Message
 import com.mandalorian.replybot.ui.presentation.base.BaseFragment
 import com.mandalorian.replybot.utils.Utils
 import kotlinx.coroutines.launch
-
 
 abstract class BaseMessageFragment : BaseFragment<FragmentCreateMessageBinding>() {
     override fun getLayoutResource(): Int = R.layout.fragment_create_message
@@ -28,7 +25,7 @@ abstract class BaseMessageFragment : BaseFragment<FragmentCreateMessageBinding>(
 
             if(!validationStatus) {
                 lifecycleScope.launch {
-                    viewModel.error.emit("Im Done")
+                    viewModel.error.emit("Please fill in all the empty fields")
                 }
                 return null
             }

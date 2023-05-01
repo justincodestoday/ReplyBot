@@ -2,6 +2,7 @@ package com.mandalorian.replybot
 
 import com.mandalorian.replybot.utils.Utils.validate
 import com.mandalorian.replybot.utils.ValidationUtils.validateEmail
+import com.mandalorian.replybot.utils.ValidationUtils.validatePassword
 import com.mandalorian.replybot.utils.ValidationUtils.validateUsername
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
@@ -54,16 +55,16 @@ class ValidationUtilTest {
 
     @Test
     fun `if password is less than 8 characters, it will fail the test`() {
-        assertEquals(validateUsername("abcde"), false)
+        assertEquals(validatePassword("abcde"), false)
     }
 
     @Test
     fun `if password contains special characters, it should pass the test`() {
-        assertEquals(validateUsername("abcde123!"), false)
+        assertEquals(validatePassword("abcde123!"), false)
     }
 
     @Test
     fun `valid password should pass the test`() {
-        assertEquals(validateUsername("abcde123"), true)
+        assertEquals(validatePassword("abcde123"), true)
     }
 }

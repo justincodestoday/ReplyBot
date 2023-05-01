@@ -30,9 +30,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
+        binding?.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
 
-        binding?.btnToRegister?.setOnClickListener {
-            navigateToRegister()
+        binding?.run {
+            btnToRegister.setOnClickListener {
+                navigateToRegister()
+            }
         }
     }
 
@@ -40,7 +44,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onBindData(view)
 
         lifecycleScope.launch {
-            viewModel.loginFinish.collect {
+            viewModel.finish.collect {
                 navigateToHome()
             }
         }
