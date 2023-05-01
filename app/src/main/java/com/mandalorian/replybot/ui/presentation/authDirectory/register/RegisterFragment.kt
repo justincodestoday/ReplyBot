@@ -32,38 +32,39 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-//        binding?.viewModel = viewModel
+        binding?.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         binding?.run {
-            btnRegister.setOnClickListener {
-
-                val username = binding?.etUsername?.text.toString()
-                val password = binding?.etPassword?.text.toString()
-                val conPass = binding?.etConfirmPassword?.text.toString()
-                val email = binding?.etEmail?.text.toString()
-
-                if (username.length < 2 && password.length < 6) {
-                    val snackBar =
-                        Snackbar.make(
-                            binding!!.root,
-                            "Please enter all the values",
-                            Snackbar.LENGTH_LONG
-                        )
-                    snackBar.show()
-                } else {
-                    lifecycleScope.launch {
-                        Log.d("debugging", "Is it even entering here?")
-                        viewModel.register(username, email, password, conPass)
-                    }
-                }
-            }
+//            btnRegister.setOnClickListener {
+//
+//                val username = binding?.etUsername?.text.toString()
+//                val password = binding?.etPassword?.text.toString()
+//                val conPass = binding?.etConfirmPassword?.text.toString()
+//                val email = binding?.etEmail?.text.toString()
+//
+//                if (username.length < 2 && password.length < 6) {
+//                    val snackBar =
+//                        Snackbar.make(
+//                            binding!!.root,
+//                            "Please enter all the values",
+//                            Snackbar.LENGTH_LONG
+//                        )
+//                    snackBar.show()
+//                } else {
+//                    lifecycleScope.launch {
+//                        Log.d("debugging", "Is it even entering here?")
+////                        viewModel.register(username, email, password, conPass)
+//                        viewModel.register()
+//                    }
+//                }
+//            }
 
             tvToLogin.setOnClickListener {
                 navController.popBackStack()
             }
         }
     }
-
 
     override fun onBindData(view: View) {
         super.onBindData(view)
