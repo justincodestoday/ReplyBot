@@ -77,11 +77,9 @@ class NotificationService : NotificationListenerService() {
     ) {
         msgReceived = wNotification.bundle?.getString("android.text") ?: "Empty"
         val messages = getMessages()
-        var messageFound = false
         Log.d(Constants.DEBUG, messages.toString())
         for (i in messages) {
             if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
-                messageFound = true
                 replyText = i.replyMsg
                 cancelNotification(sbn?.key)
             }
@@ -91,13 +89,17 @@ class NotificationService : NotificationListenerService() {
 //                replyText = i.replyMsg
 //                cancelNotification(sbn?.key)
 //            }
-else{
-                Log.d(Constants.DEBUG,"No message to return")
+            else {
+                Log.d(Constants.DEBUG, "No message to return")
                 return
             }
 
             val notifName = wNotification.name
-            if (hasAppName(notifName, "com.facebook.orca" ) || hasAppName(notifName, "com.whatsapp")) {
+            if (hasAppName(notifName, "com.facebook.orca") || hasAppName(
+                    notifName,
+                    "com.whatsapp"
+                )
+            ) {
                 callback()
             }
         }

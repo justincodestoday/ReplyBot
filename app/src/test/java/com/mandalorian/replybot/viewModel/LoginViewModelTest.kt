@@ -38,7 +38,7 @@ class LoginViewModelTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(true)
         loginViewModel.email.value = "abc@abc.com"
         loginViewModel.password.value = "qweqweqwe"
-        loginViewModel.login(loginViewModel.email.value,loginViewModel.password.value)
+        loginViewModel.login()
         assertEquals(loginViewModel.loginFinish.first(), Unit)
     }
 
@@ -47,7 +47,7 @@ class LoginViewModelTest {
         Mockito.`when`(authRepo.login("abc@abc.com", "qweqweqwe")).thenReturn(false)
         loginViewModel.email.value = "abc@abc.com"
         loginViewModel.password.value = "qweqweqww"
-        loginViewModel.login(loginViewModel.email.value,loginViewModel.password.value)
+        loginViewModel.login()
 
         assertEquals(loginViewModel.error.first(),"Login failed")
     }

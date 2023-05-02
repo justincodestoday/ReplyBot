@@ -1,5 +1,6 @@
 package com.mandalorian.replybot.ui.presentation.authDirectory.login.viewModel
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
