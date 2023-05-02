@@ -86,16 +86,6 @@ class NotificationService : NotificationListenerService() {
             } else {
                 continue
             }
-//            if (msgReceived.lowercase().contains(i.receipt.lowercase()) && i.isActivated
-//            ) {
-//                messageFound = true
-//                replyText = i.replyMsg
-//                cancelNotification(sbn?.key)
-//            }
-            else {
-                Log.d(Constants.DEBUG, "No message to return")
-                return
-            }
 
             val notifName = wNotification.name
             if (hasAppName(notifName, "com.facebook.orca") || hasAppName(
