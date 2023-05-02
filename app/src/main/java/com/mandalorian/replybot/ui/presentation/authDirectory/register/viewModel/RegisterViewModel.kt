@@ -1,10 +1,12 @@
 package com.mandalorian.replybot.ui.presentation.authDirectory.register.viewModel
 
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.replybot.model.User
 import com.mandalorian.replybot.service.AuthService
 import com.mandalorian.replybot.ui.presentation.base.viewModel.BaseViewModel
+import com.mandalorian.replybot.utils.Constants
 import com.mandalorian.replybot.utils.ValidationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -58,7 +60,16 @@ class RegisterViewModel @Inject constructor(private val auth: AuthService) : Bas
     fun register() {
         viewModelScope.launch {
             if (isFormValid()) {
-                safeApiCall { auth.register(User(username.value, email.value, password.value)) }
+                safeApiCall {
+                    auth.register(
+                        User(
+                            username = username.value,
+                            email = email.value,
+                            password = password.value
+                        )
+                    )
+                }
+                Log.d(Constants.DEBUG, "registering")
                 success.emit("Register successful")
                 finish.emit(Unit)
             } else {

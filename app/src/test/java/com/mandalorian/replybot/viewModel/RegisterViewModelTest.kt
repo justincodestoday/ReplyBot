@@ -53,7 +53,7 @@ class RegisterViewModelTest {
 
     @Test
     fun `user should be able to register a new account after passing validation`() = runTest {
-        Mockito.`when`(authRepo.register(User("alphabetman","abc@abc.com", "qweqweqwe"))).thenReturn(Unit)
+        Mockito.`when`(authRepo.register(User("","alphabetman","abc@abc.com", "qweqweqwe"))).thenReturn(Unit)
         viewModel.username.value = "alphabetman"
         viewModel.email.value = "abc@abc.com"
         viewModel.password.value = "qweqweqwe"
@@ -64,7 +64,7 @@ class RegisterViewModelTest {
 
     @Test
     fun `user should not be able to register a new account without first passing validation`() = runTest {
-        Mockito.`when`(authRepo.register(User("alphabetman","abc@abc.com", "qweqweqwe"))).thenReturn(Unit)
+        Mockito.`when`(authRepo.register(User("", "alphabetman","abc@abc.com", "qweqweqwe"))).thenReturn(Unit)
         viewModel.username.value = "alp"
         viewModel.email.value = ".abc@abc.com"
         viewModel.password.value = "qweqweqwe"

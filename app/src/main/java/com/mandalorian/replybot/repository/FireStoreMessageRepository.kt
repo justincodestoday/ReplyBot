@@ -4,9 +4,16 @@ import com.google.firebase.firestore.CollectionReference
 import com.mandalorian.replybot.model.Message
 import kotlinx.coroutines.tasks.await
 
-class FireStoreMessageRepository(private val ref: CollectionReference): MessageRepository {
+class FireStoreMessageRepository(private val ref: CollectionReference) : MessageRepository {
     override suspend fun getAllMessages(): List<Message> {
-        return ref.get().await().toObjects(Message::class.java)
+        val messages = mutableListOf<Message>()
+        val res = ref.get().await()
+        for (document in res) {
+            messages.add(document.toObject(Message::class.java).copy(id = document.id))
+        }
+
+        return messages
+//        return ref.get().await().toObjects(Message::class.java)
     }
 
     override suspend fun getMessageById(id: String): Message? {

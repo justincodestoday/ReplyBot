@@ -6,4 +6,5 @@ data class Message(
     val incomingMsg: String = "",
     val replyMsg: String = "",
     var isActivated: Boolean = true,
+    val userId: String = ""
 )

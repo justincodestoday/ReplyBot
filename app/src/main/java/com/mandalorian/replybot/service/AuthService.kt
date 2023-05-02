@@ -8,8 +8,12 @@ import kotlinx.coroutines.tasks.await
 class AuthService(private val auth: FirebaseAuth, private val ref: CollectionReference) {
 
     suspend fun register(user: User) {
-        val res = auth.createUserWithEmailAndPassword(user.email, user.pass).await()
-        ref.document(res.user!!.uid).set(user).await()
+        val res = auth.createUserWithEmailAndPassword(user.email, user.password).await()
+//        ref.document(res.user!!.uid).set(user).await()
+
+        res.user?.uid?.let {
+            ref.document(it).set(user.copy(id = it)).await()
+        }
     }
 
     suspend fun login(email: String, pass: String): Boolean {

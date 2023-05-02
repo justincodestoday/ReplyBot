@@ -40,7 +40,8 @@ class MessagesAdapter(
             }
 
             cvMessage.setOnClickListener {
-                onClick(message)
+//                onClick(message)
+                listener?.onClick(message)
             }
         }
     }
@@ -52,4 +53,10 @@ class MessagesAdapter(
             task.id == task2.id
         }
     }
+
+    interface Listener {
+        fun onClick(message: Message)
+    }
+
+    var listener: Listener? = null
 }
