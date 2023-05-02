@@ -32,8 +32,8 @@ class MessagesAdapter(
         val message = messages[position]
         holder.binding.run {
             tvTitle.text = message.title
-            tvReceive.text = message.receipt
-            tvReply.text = message.replyMsg
+            tvIncoming.text = message.incomingMsg
+            tvOutgoing.text = message.replyMsg
 
             if (!message.isActivated) {
                 status.setColorFilter(ContextCompat.getColor(root.context, R.color.yellow_700))

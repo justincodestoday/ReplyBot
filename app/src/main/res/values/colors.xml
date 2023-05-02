@@ -13,4 +13,5 @@
     <color name="yellow_700">#FFC107</color>
     <color name="green_200">#12D30B</color>
     <color name="green_500">#4CAF50</color>
+    <color name="gray">#CFCFCF</color>
 </resources>

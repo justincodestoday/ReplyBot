@@ -79,9 +79,12 @@ class NotificationService : NotificationListenerService() {
         val messages = getMessages()
         Log.d(Constants.DEBUG, messages.toString())
         for (i in messages) {
-            if (i.isActivated && msgReceived.contains(Regex(i.receipt, RegexOption.IGNORE_CASE))) {
+            if (i.isActivated && msgReceived.contains(Regex(i.incomingMsg, RegexOption.IGNORE_CASE))) {
+                Log.d(Constants.DEBUG, "$i")
                 replyText = i.replyMsg
                 cancelNotification(sbn?.key)
+            } else {
+                continue
             }
 //            if (msgReceived.lowercase().contains(i.receipt.lowercase()) && i.isActivated
 //            ) {

@@ -32,8 +32,8 @@
         android:name="com.mandalorian.replybot.ui.presentation.home.HomeFragment"
         android:label="HomeFragment">
         <action
-            android:id="@+id/action_homeFragment_to_editMessageFragment"
-            app:destination="@id/editMessageFragment" />
+            android:id="@+id/action_homeFragment_to_updateMessageFragment"
+            app:destination="@id/updateMessageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_createMessageFragment"
             app:destination="@id/createMessageFragment" />
@@ -47,17 +47,17 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/editMessageFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.messageForm.EditMessageFragment"
-        android:label="fragment_edit_message"
-        tools:layout="@layout/fragment_edit_message">
+        android:id="@+id/updateMessageFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.messageForm.updateMessage.UpdateMessageFragment"
+        android:label="UpdateMessageFragment"
+        tools:layout="@layout/fragment_create_message">
         <argument
             android:name="id"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/createMessageFragment"
-        android:name="com.mandalorian.replybot.ui.presentation.messageForm.CreateMessageFragment"
+        android:name="com.mandalorian.replybot.ui.presentation.messageForm.createMessage.CreateMessageFragment"
         android:label="CreateMessageFragment">
         <action
             android:id="@+id/action_createMessageFragment_to_homeFragment"

@@ -32,7 +32,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/image_button_circle"
             android:backgroundTint="@color/dark_blue"
-            android:contentDescription="TODO"
+            android:contentDescription="Add Button"
             android:onClick="@{() -> viewModel.navigateToCreateMessage()}"
             android:padding="16dp"
             android:scaleType="fitCenter"
@@ -48,12 +48,5 @@
             app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="2dp"
             app:tabTextColor="@color/white" />
-
-        <!--        <com.google.android.material.tabs.TabLayout-->
-        <!--            android:id="@+id/tabLayout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:tabIndicatorHeight="3dp"-->
-        <!--            app:tabMode="fixed" />-->
     </RelativeLayout>
 </layout>

@@ -1,13 +1,13 @@
-package com.mandalorian.replybot.ui.presentation.messageForm
+package com.mandalorian.replybot.ui.presentation.messageForm.createMessage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.replybot.R
-import com.mandalorian.replybot.ui.presentation.messageForm.viewModel.CreateMessageViewModel
+import com.mandalorian.replybot.ui.presentation.messageForm.baseMessage.BaseMessageFragment
+import com.mandalorian.replybot.ui.presentation.messageForm.createMessage.viewModel.CreateMessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,6 @@ class CreateMessageFragment : BaseMessageFragment() {
                 val message = getMessage()
                 message.let {
                     if (message != null) {
-                        Log.d("debugging", "Please la")
                         viewModel.addMessage(message)
                     }
                 }

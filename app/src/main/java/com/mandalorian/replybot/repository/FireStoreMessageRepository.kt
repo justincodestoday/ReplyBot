@@ -21,11 +21,10 @@ class FireStoreMessageRepository(private val ref: CollectionReference): MessageR
         doc.set(updatedMessage).await()
     }
 
-    override suspend fun updateMessage(id: String, message: Message, isActivated: Boolean): Message {
+    override suspend fun updateMessage(id: String, message: Message, isActivated: Boolean) {
         val doc = ref.document(id)
         val updatedMessage = message.copy(id = id, isActivated = isActivated)
         doc.set(updatedMessage).await()
-        return updatedMessage
     }
 
     override suspend fun deleteMessage(id: String) {
